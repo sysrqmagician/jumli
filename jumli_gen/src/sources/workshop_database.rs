@@ -2,7 +2,7 @@ use std::{collections::HashMap, env::temp_dir, fs::File, io::BufReader};
 
 use chrono::Utc;
 use git2::FetchOptions;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use tracing::info;
 
 use crate::{
@@ -68,7 +68,7 @@ impl RecordSource for WorkshopDatabase {
         let mut repo_dir = temp_dir();
         repo_dir.push("jumli_wsdb");
 
-        info!("Cloning WSDB Repo.");
+        info!("Cloning WSDB Repo to {repo_dir:?}.");
         let _repo = repo_builder.clone(REPOSITORY_URL, &repo_dir)?;
         info!("Cloned WSDB Repo.");
 

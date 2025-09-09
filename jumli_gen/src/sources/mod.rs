@@ -2,7 +2,7 @@ use std::error::Error;
 
 use crate::records::IngestibleData;
 
-pub mod local;
+pub mod jumli_data;
 pub mod use_this_instead;
 pub mod workshop_database;
 

@@ -61,7 +61,7 @@ impl RecordSource for UseThisInstead {
         let mut repo_dir = temp_dir();
         repo_dir.push("jumli_uti");
 
-        info!("Cloning UTI Repo.");
+        info!("Cloning UTI Repo to {repo_dir:?}.");
         let _repo = repo_builder.clone(REPOSITORY_URL, &repo_dir)?;
         info!("Cloned UTI Repo.");
 
