@@ -6,7 +6,7 @@ use tokio::task::JoinSet;
 use tracing::info;
 
 use crate::{
-    records::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
+    records::types::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
     sources::RecordSource,
 };
 
@@ -122,19 +122,19 @@ impl RecordSource for UseThisInstead {
         Ok(())
     }
 
-    fn get_records(&self) -> Option<&Vec<IngestibleData>> {
+    fn get_records(&mut self) -> Option<&mut Vec<IngestibleData>> {
         if self.records.is_empty() {
             None
         } else {
-            Some(&self.records)
+            Some(&mut self.records)
         }
     }
 
-    fn get_errors(&self) -> Option<&Vec<String>> {
+    fn get_errors(&mut self) -> Option<&mut Vec<String>> {
         if self.errors.is_empty() {
             None
         } else {
-            Some(&self.errors)
+            Some(&mut self.errors)
         }
     }
 }

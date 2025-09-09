@@ -8,7 +8,7 @@ use tokio::task::JoinSet;
 use tracing::info;
 
 use crate::{
-    records::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord},
+    records::types::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
     sources::RecordSource,
 };
 
@@ -52,7 +52,7 @@ impl Into<Vec<IngestibleData>> for DatasetFile {
                         context_url: local.context_url,
                         date: local.date,
                         notice: local.notice,
-                        source: crate::records::Source::JumliDataset(self.name.clone()),
+                        source: Source::JumliDataset(self.name.clone()),
                     })
                     .collect(),
             })
@@ -118,30 +118,30 @@ impl RecordSource for JumliData {
         }
 
         info!(
-            "Completed UTI processing, yielding {} records and {} errors.",
+            "Completed JuMLi processing, yielding {} records and {} errors.",
             self.records.len(),
             self.errors.len()
         );
 
-        info!("Deleting JUMLI Repo {repo_dir:?}.",);
+        info!("Deleting JuMLi Repo {repo_dir:?}.",);
 
         std::fs::remove_dir_all(repo_dir)?;
         Ok(())
     }
 
-    fn get_records(&self) -> Option<&Vec<IngestibleData>> {
+    fn get_records(&mut self) -> Option<&mut Vec<IngestibleData>> {
         if self.records.is_empty() {
             None
         } else {
-            Some(&self.records)
+            Some(&mut self.records)
         }
     }
 
-    fn get_errors(&self) -> Option<&Vec<String>> {
+    fn get_errors(&mut self) -> Option<&mut Vec<String>> {
         if self.errors.is_empty() {
             None
         } else {
-            Some(&self.errors)
+            Some(&mut self.errors)
         }
     }
 }

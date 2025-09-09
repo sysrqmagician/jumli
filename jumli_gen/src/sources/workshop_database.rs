@@ -7,7 +7,7 @@ use tracing::info;
 
 use crate::{
     consts::LATEST_RIMWORLD_RELEASE,
-    records::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
+    records::types::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
     sources::RecordSource,
 };
 
@@ -79,18 +79,11 @@ impl RecordSource for WorkshopDatabase {
 
         for (steam_id, entry) in db.database.iter() {
             if entry.game_versions.is_none() {
-                self.errors
-                    .push(format!("Game Versions for '{steam_id}' was null."));
+                // Only using this source to generate outdated notices. If there isn't a version, the data has no use for us.
                 continue;
             }
 
-            if entry.package_id.is_none() {
-                self.errors
-                    .push(format!("Package ID for '{steam_id}' was null."));
-                continue;
-            }
-
-            if let None = entry
+            if let Some(_) = entry
                 .game_versions
                 .as_ref()
                 .expect("was checked")
@@ -101,13 +94,13 @@ impl RecordSource for WorkshopDatabase {
                 continue;
             }
 
+            let mut identifiers = vec![ModIdentifier::WorkshopId(*steam_id)];
+            if let Some(package_id) = &entry.package_id {
+                identifiers.push(ModIdentifier::PackageId(package_id.clone()))
+            }
+
             self.records.push(IngestibleData {
-                identifiers: vec![
-                    ModIdentifier::WorkshopId(*steam_id),
-                    ModIdentifier::PackageId(
-                        entry.package_id.as_ref().expect("was checked").clone(),
-                    ),
-                ],
+                identifiers,
                 notices: vec![NoticeRecord {
                     certainty: Certainty::Medium,
                     date: Some(Utc::now().date_naive()),
@@ -129,19 +122,19 @@ impl RecordSource for WorkshopDatabase {
         Ok(())
     }
 
-    fn get_records(&self) -> Option<&Vec<IngestibleData>> {
+    fn get_records(&mut self) -> Option<&mut Vec<IngestibleData>> {
         if self.records.is_empty() {
             None
         } else {
-            Some(&self.records)
+            Some(&mut self.records)
         }
     }
 
-    fn get_errors(&self) -> Option<&Vec<String>> {
+    fn get_errors(&mut self) -> Option<&mut Vec<String>> {
         if self.errors.is_empty() {
             None
         } else {
-            Some(&self.errors)
+            Some(&mut self.errors)
         }
     }
 }

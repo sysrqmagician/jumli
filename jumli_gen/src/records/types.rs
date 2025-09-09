@@ -18,13 +18,22 @@ pub struct ModRecord {
     pub notices: Vec<NoticeRecord>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub enum ModIdentifier {
     PackageId(String),
     WorkshopId(u64),
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+impl ToString for ModIdentifier {
+    fn to_string(&self) -> String {
+        match self {
+            Self::PackageId(id) => id.clone(),
+            Self::WorkshopId(id) => id.to_string(),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NoticeRecord {
     pub date: Option<NaiveDate>,
     pub notice: Notice,
@@ -33,7 +42,7 @@ pub struct NoticeRecord {
     pub context_url: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Notice {
     BadPerformance(Option<String>),
     UseAlternative(String, Option<u64>, Option<String>),
@@ -44,7 +53,7 @@ pub enum Notice {
     Miscellaneous(Option<String>),
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Certainty {
     High,
     Medium,
@@ -53,7 +62,7 @@ pub enum Certainty {
     Inapplicable,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Source {
     JumliDataset(String),
     UseThisInsteadDatabase,
