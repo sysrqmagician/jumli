@@ -1,0 +1,15 @@
+[package]
+name = "jumli_gen"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4.42", features = ["serde"] }
+clap = { version = "4.5.47", features = ["derive"] }
+git2 = "0.20.2"
+quick-xml = { version = "0.38.3", features = ["async-tokio", "serde", "serialize", "tokio"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+tokio = { version = "1.47.1", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.20"
