@@ -137,6 +137,113 @@ Dataset(
                     context_url: "https://i.postimg.cc/V66cK4Kv/image.png",
                 )
             ]
+        ),
+        // RimHUD
+        (
+            identifiers: [
+                WorkshopId(1508850027)
+            ],
+            notices: [
+                (
+                    date: "2023-06-12",
+                    notice: BadPerformance("Possible TPS impact, but reasonable. With a pawn selected averages to 0.64 ms constant with proper settings. In my opinion its utility is worth the situational hit. Set refresh timeout in mod settings to maximum (3000 ms). That ll drop the overhead. Still don't keep a pawn's info window open for long, especially on high game speeds."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/QMMCFyyd/image.png"
+                )
+            ]
+        ),
+        // RimCities
+        (
+            identifiers: [
+                WorkshopId(1775170117)
+            ],
+            notices: [
+                (
+                    date: "2023-06-12",
+                    notice: BadPerformance("Possible TPS impact, but reasonable. Laggy patch DefeatUtility and Cities.Tick, scales with amount of settlements on your world map. Overall impact with full coverage and a lot of factions reachest 0.5-0.6 ms. Shouldn't be too bad otherwise. Depends heavily on amount of settlements on your planet. The more of them - the worse. 100% coverage with max population setting nets you 4ms"),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/XvX5Rq3L/image.png"
+                )
+            ]
+        ),
+        // Turret Hunt
+        (
+            identifiers: [
+                WorkshopId(2014132171), // Original
+                WorkshopId(3256505678) // Continued
+            ],
+            notices: [
+                (
+                    date: "2023-06-12",
+                    notice: BadPerformance("Likely to lower TPS. No ambient overhead, but when turret hunt mode is on eats about 2.5-11 ms constant, looking up for stuff to shoot. Increases the more turrets are set to hunt."),
+                    certainty: Medium, // Spreadsheet only contains original, but continued seems mostly unchanged
+                    context_url: "https://i.postimg.cc/5ybMCckY/image.png"
+                )
+            ]
+        ),
+        // Locks
+        (
+            identifiers: [
+                WorkshopId(1157085076)
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Likely to lower TPS. Impact scales sharply with amount of doors with different access settings, average map with a lot of doors easily adds up to 0.5-0.6 ms, bigger colonies will suffer more."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/rww3Xg6L/image.png"
+                )
+            ]
+        ),
+        // Room Food
+        (
+            identifiers: [
+                WorkshopId(1339148170), // Original
+                WorkshopId(3530729319) // Updated
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Likely to lower TPS. FindRoomFood patch spikes up to 100-110 ms every time a pawn decides to eat and seeks out a dining room. Scales with pawn amount and map size. Reasonably rare but spikes are very high."),
+                    certainty: Medium,
+                    context_url: "https://i.postimg.cc/kgmbdwM4/image.png"
+                )
+            ]
+        ),
+        // (NWN) Real Fog of War
+        (
+            identifiers: [
+                WorkshopId(2560931731), // Original
+                WorkshopId(3391128917) // Continued
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Very likely to lower TPS. Map Comp that eats TPS. Looks harmless in Harmony Patches, but Map Comp Tick will reveal it's something along the line of 10-15ms+ when pawns are moving."),
+                    certainty: Medium,
+                    context_url: "https://i.postimg.cc/02GQzkHC/image.png",
+                )
+            ]
+        ),
+        // Doors Expanded
+        (
+            identifiers: [
+                WorkshopId(1316188771),
+                WorkshopId(3532342422)
+            ],
+            notices: [
+                (
+                    date: "2024-09-30",
+                    notice: BadPerformance("Likely to lower TPS. Scales with numbers of doors, test done with 6 doors enclosing a medium sized room. Constant overhead cost as well as spikes.  Uses the new 1.5 doors so its a small bit better but still has a number of functions unique to its dll that get called and just dont work due to not being entirely finished as an update."),
+                    certainty: High,
+                    context_url: "https://cdn.discordapp.com/attachments/886872658015297559/1009000956802895903/unknown.png?size=4096"
+                ),
+                (
+                    date: "2024-09-30",
+                    notice: UseAlternative("[LTS] Furnishing", 2567438519, "It has multitile doors, but does not impact performance nearly as much."),
+                    certainty: High
+                )
+            ]
         )
         // TODO: Continue data entry
     ]
