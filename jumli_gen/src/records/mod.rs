@@ -75,11 +75,14 @@ impl DatabaseBuilder {
                 true
             });
 
-            for identifier in identifiers {
+            for identifier in &identifiers {
                 indices.insert(identifier.to_string(), current_index);
             }
 
-            final_records.push(ModRecord { notices });
+            final_records.push(ModRecord {
+                notices,
+                identifiers,
+            });
         }
 
         info!(

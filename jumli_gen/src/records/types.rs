@@ -16,6 +16,7 @@ pub struct ModRecordIndex {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ModRecord {
     pub notices: Vec<NoticeRecord>,
+    pub identifiers: Vec<ModIdentifier>,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]

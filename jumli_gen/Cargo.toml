@@ -5,7 +5,6 @@ edition = "2024"
 
 [dependencies]
 chrono = { version = "0.4.42", features = ["serde"] }
-clap = { version = "4.5.47", features = ["derive"] }
 git2 = "0.20.2"
 quick-xml = { version = "0.38.3", features = ["async-tokio", "serde", "serialize", "tokio"] }
 ron = "0.11.0"
