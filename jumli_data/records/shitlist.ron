@@ -244,6 +244,76 @@ Dataset(
                     certainty: High
                 )
             ]
+        ),
+        // Moody
+        (
+            identifiers: [
+                WorkshopId(826998327)
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Very likely to impact TPS. When opened it has an impact of about 2 ms constant, since its UI, does not vary with game speeds. Do not keep it open."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/vZyGL8yP/image.png"
+                )
+            ]
+        ),
+        // Guards For Me
+        (
+            identifiers: [
+                WorkshopId(1855885448)
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Likely to impact TPS. Mild constant impact (up to 0.2 ms average), but upon selecting a pawn (or several) produces massive lag of about 30-33 ms average. Makes commanding pawns during a fight horrid."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/k5Ltdn4P/image.png"
+                )
+            ]
+        ),
+        // Kanban Stockpile
+        (
+            identifiers: [
+                WorkshopId(2287142613)
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Likely to impact TPS. Constant scanning when any limits are set. Removal of limits removes the patch in question."),
+                    certainty: High,
+                    context_url: "https://i.imgur.com/OtoMsMd.png"
+                )
+            ]
+        ),
+        // Everybody Gets One
+        (
+            identifiers: [
+                WorkshopId(1687566130), // Original
+                WorkshopId(3530806680) // Continued
+            ],
+            notices: [
+                (
+                    date: "2023-11-18",
+                    notice: BadPerformance("Likely to impact TPS. Scales with the amount of pawns and also the amount of maintenance bills counting colonists."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Pollution Overhaul
+        (
+            identifiers: [
+                WorkshopId(2879166831)
+            ],
+            notices: [
+                (
+                    date: "2023-11-24",
+                    notice: BadPerformance("Very likely to impact TPS. First ever winner for a position of severity 3 on slow mods list for a purely xml mod! A truly grand achievement. Made possible by noble attempt at making all the trees use PollutionPump comp, turning every map with dense flora into a slideshow. Impact varies by amount of trees on the map, thus by both biome and map size. As if made for sole purpose of disproving the theory of xml mods being harmless. No gentlemen, they re not."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/HncvCJY1/image.png"
+                )
+            ]
         )
         // TODO: Continue data entry
     ]
