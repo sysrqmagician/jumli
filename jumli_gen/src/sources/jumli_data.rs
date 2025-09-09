@@ -121,10 +121,18 @@ impl RecordSource for JumliData {
     }
 
     fn get_records(&self) -> Option<&Vec<IngestibleData>> {
-        todo!()
+        if self.records.is_empty() {
+            None
+        } else {
+            Some(&self.records)
+        }
     }
 
     fn get_errors(&self) -> Option<&Vec<String>> {
-        todo!()
+        if self.errors.is_empty() {
+            None
+        } else {
+            Some(&self.errors)
+        }
     }
 }
