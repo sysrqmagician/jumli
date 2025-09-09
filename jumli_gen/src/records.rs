@@ -1,37 +1,39 @@
 use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct IngestibleData {
     pub identifiers: Vec<ModIdentifier>,
     pub notices: Vec<NoticeRecord>,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ModRecordIndex {
     pub identifier: ModIdentifier,
     pub index: usize,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ModRecord {
     pub notices: Vec<NoticeRecord>,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum ModIdentifier {
     PackageId(String),
     WorkshopId(u64),
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct NoticeRecord {
     pub date: Option<NaiveDate>,
     pub notice: Notice,
     pub certainty: Certainty,
     pub source: Source,
+    pub context_url: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Notice {
     BadPerformance(Option<String>),
     UseAlternative(String, Option<u64>, Option<String>),
@@ -42,7 +44,7 @@ pub enum Notice {
     Miscellaneous(Option<String>),
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Certainty {
     High,
     Medium,
@@ -51,9 +53,9 @@ pub enum Certainty {
     Inapplicable,
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum Source {
-    Local,
+    JumliDataset(String),
     UseThisInsteadDatabase,
     WorkshopDatabase,
 }

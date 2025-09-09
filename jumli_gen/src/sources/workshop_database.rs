@@ -1,7 +1,8 @@
-use std::{collections::HashMap, env::temp_dir, fs::File, io::BufReader};
+use std::{cell::LazyCell, collections::HashMap, env::temp_dir, fs::File, io::BufReader};
 
 use chrono::Utc;
 use git2::FetchOptions;
+use ron::extensions::Extensions;
 use serde::Deserialize;
 use tracing::info;
 
@@ -113,6 +114,7 @@ impl RecordSource for WorkshopDatabase {
                     date: Some(Utc::now().date_naive()),
                     notice: Notice::OutOfDate,
                     source: Source::WorkshopDatabase,
+                    context_url: None,
                 }],
             });
         }
