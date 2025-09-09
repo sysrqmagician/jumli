@@ -2,7 +2,7 @@ use std::{cell::LazyCell, env::temp_dir, fs::File, io::BufReader};
 
 use chrono::NaiveDate;
 use git2::FetchOptions;
-use ron::{Deserializer, extensions::Extensions};
+use ron::extensions::Extensions;
 use serde::{Deserialize, Serialize};
 use tokio::task::JoinSet;
 use tracing::info;
@@ -60,9 +60,18 @@ impl Into<Vec<IngestibleData>> for DatasetFile {
     }
 }
 
-struct JumliData {
+pub struct JumliData {
     records: Vec<IngestibleData>,
     errors: Vec<String>,
+}
+
+impl JumliData {
+    pub fn new() -> Self {
+        Self {
+            records: Vec::new(),
+            errors: Vec::new(),
+        }
+    }
 }
 
 impl RecordSource for JumliData {
