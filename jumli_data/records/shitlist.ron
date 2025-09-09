@@ -1,0 +1,116 @@
+// Data taken from the Dubs Mods Discord community's "shitlist": https://docs.google.com/spreadsheets/d/1HqoGCdgd_UQlrDRXmMn0j92FT2Qv3lcnlg1JyRow8Cg/edit?gid=1731985214#gid=1731985214 on 2025-09-09
+Dataset(
+    name: "Dubs Community Slow Mods Spreadsheet",
+    description: "Data from a spreadsheet curated by the community of the Dubs Mods Discord. Only entries still being developed and not marked Outdated as of 2025-09-09. Dates might be wrong as the spreadsheet contains mixed conventions. ATTENTION: Dubwise didn't create, nor is he curating this list. This list is created and maintained by fans of analyzer.",
+
+    records: [
+        // A RimWorld of Magic
+        (
+            identifiers: [
+                WorkshopId(1201382956),
+            ],
+            notices: [
+                (
+                    date: Some("2024-09-23"),
+                    notice: BadPerformance("Very likely to lower TPS. Couple slow patches such as CompAbilityUserMight going to 0.6 ms average and spiking to 7 ms constantly. As well as whole pile of smaller patches, stacking really high, without even any content on the map. Slow gizmos on pawn selection as well."),
+                    certainty: High,
+                ),
+            ],
+        ),
+        // Avoid Friendly Fire
+        (
+            identifiers: [
+                WorkshopId(1134165362),
+            ],
+            notices: [
+                (
+                    date: Some("2023-11-06"),
+                    notice: BadPerformance("Very likely to lower TPS. Goes absolutely nuts in combat. With 20 pawns against a 15-20 pawn raid i got spikes up to 600 ms xD"),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Rim War
+        (
+            identifiers: [
+                WorkshopId(2222935097)
+            ],
+            notices: [
+                (
+                    date: Some("2024-09-23"),
+                    notice: BadPerformance("Very likely to lower TPS. Obliterates fps on default settings. On a fully covered planet with several added factions WorldObjectsHolder method eventually climbs up to 15 ms (from 4ms without the mod)"),
+                    certainty: High
+                )
+            ]
+        ),
+        // Allow Tool
+        (
+            identifiers: [
+                WorkshopId(761421485)
+            ],
+            notices: [
+                (
+                    date: Some("2023-06-12"),
+                    notice: BadPerformance("Possible TPS impact, but reasonable. Haul Urgently copies vanilla hauling job, disable it in options. Drafted hunt has high overhead scaling with amount of pawns set to hunt. about 0.3 to 0.5 ms per pawn, use in moderation on speed 1. Otherwise the mod is fine."),
+                    certainty: High
+                )
+            ]
+        ),
+        // Androids for RW 1.4
+        (
+            identifiers: [
+                WorkshopId(2889326293)
+            ],
+            notices: [
+                (
+                    date: Some("2023-06-12"),
+                    notice: BadPerformance("Likely to lower TPS. Quite costly (HealthTracker and InteractionsTracker) even without any androids on the map, scales with amount of pawns."),
+                    certainty: Medium // Has been updated to 1.6 but spreadsheet still mentions 1.4
+                )
+            ]
+        ),
+        // Colonist Bar KF (Continued)
+        (
+            identifiers: [
+                WorkshopId(2270454746),
+            ],
+            notices: [
+                (
+                    date: Some("2023-06-12"),
+                    notice: BadPerformance("Very likely to lower TPS. Gud god, just keep the fuck away. For your own good. And no, its not Mlie's fault in any way. 45 ms average. High score!"),
+                    certainty: High
+                )
+            ]
+        ),
+        // Mining & Co. Spaceship
+        (
+            identifiers: [
+                WorkshopId(1221668621), // Original
+                WorkshopId(2912642991) // Continued
+            ],
+            notices: [
+                (
+                    date: Some("2023-06-11"),
+                    notice: BadPerformance("Possible TPS impact, but reasonable. Landing pad blinking lights cause whole game's GlowGrid to recalculate on each blink... Thats 6 to 10 ms spikes, depending on your light amount. Disable that option, as its enabled by default."),
+                    certainy: Medium, // Only original was listed, but no optimizations mentioned on continued page
+                )
+            ]
+        ),
+        // Misc. Robots
+        (
+            identifiers: [
+                WorkshopId(724602224)
+            ],
+            notices: [
+                (
+                    date: Some("2024-02-29"),
+                    notice: BadPerformance("Likely to lower TPS."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/P5kNr9cC/image.png",
+                )
+            ]
+        )
+
+        // TODO: Continue data entry
+    ]
+)
