@@ -11,7 +11,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2024-09-23"),
+                    date: "2024-09-23",
                     notice: BadPerformance("Very likely to lower TPS. Couple slow patches such as CompAbilityUserMight going to 0.6 ms average and spiking to 7 ms constantly. As well as whole pile of smaller patches, stacking really high, without even any content on the map. Slow gizmos on pawn selection as well."),
                     certainty: High,
                 ),
@@ -24,7 +24,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2023-11-06"),
+                    date: "2023-11-06",
                     notice: BadPerformance("Very likely to lower TPS. Goes absolutely nuts in combat. With 20 pawns against a 15-20 pawn raid i got spikes up to 600 ms xD"),
                     certainty: High,
                 )
@@ -37,7 +37,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2024-09-23"),
+                    date: "2024-09-23",
                     notice: BadPerformance("Very likely to lower TPS. Obliterates fps on default settings. On a fully covered planet with several added factions WorldObjectsHolder method eventually climbs up to 15 ms (from 4ms without the mod)"),
                     certainty: High
                 )
@@ -50,7 +50,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2023-06-12"),
+                    date: "2023-06-12",
                     notice: BadPerformance("Possible TPS impact, but reasonable. Haul Urgently copies vanilla hauling job, disable it in options. Drafted hunt has high overhead scaling with amount of pawns set to hunt. about 0.3 to 0.5 ms per pawn, use in moderation on speed 1. Otherwise the mod is fine."),
                     certainty: High
                 )
@@ -63,7 +63,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2023-06-12"),
+                    date: "2023-06-12",
                     notice: BadPerformance("Likely to lower TPS. Quite costly (HealthTracker and InteractionsTracker) even without any androids on the map, scales with amount of pawns."),
                     certainty: Medium // Has been updated to 1.6 but spreadsheet still mentions 1.4
                 )
@@ -76,7 +76,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2023-06-12"),
+                    date: "2023-06-12",
                     notice: BadPerformance("Very likely to lower TPS. Gud god, just keep the fuck away. For your own good. And no, its not Mlie's fault in any way. 45 ms average. High score!"),
                     certainty: High
                 )
@@ -90,7 +90,7 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2023-06-11"),
+                    date: "2023-06-11",
                     notice: BadPerformance("Possible TPS impact, but reasonable. Landing pad blinking lights cause whole game's GlowGrid to recalculate on each blink... Thats 6 to 10 ms spikes, depending on your light amount. Disable that option, as its enabled by default."),
                     certainty: Medium, // Only original was listed, but no optimizations mentioned on continued page
                 )
@@ -103,14 +103,41 @@ Dataset(
             ],
             notices: [
                 (
-                    date: Some("2024-02-29"),
-                    notice: BadPerformance("Likely to lower TPS."),
+                    date: "2024-02-29",
+                    notice: BadPerformance("Likely to lower TPS. Make vanilla jobs worse"),
                     certainty: High,
                     context_url: "https://i.postimg.cc/P5kNr9cC/image.png",
                 )
             ]
+        ),
+        // PawnMorpher
+        (
+            identifiers: [
+                WorkshopId(1786466855)
+            ],
+            notices: [
+                (
+                    date: "2024-02-29",
+                    notice: BadPerformance("Likely to lower TPS. After optimizations about 2 ms of overhead after adding it and Humanoid Alien Races into ongoing save."),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/dtQP9kjc/image.png",
+                )
+            ]
+        ),
+        // People Can Change
+        (
+            identifiers: [
+                WorkshopId(1257561308)
+            ],
+            notices: [
+                (
+                    date: "2023-06-11",
+                    notice: BadPerformance("Likely to lower TPS. Incredibly slow MapComp, scales with people on the map, active constantly. 20 pawns on the map create frequent spikes of 23-28 ms"),
+                    certainty: High,
+                    context_url: "https://i.postimg.cc/V66cK4Kv/image.png",
+                )
+            ]
         )
-
         // TODO: Continue data entry
     ]
 )
