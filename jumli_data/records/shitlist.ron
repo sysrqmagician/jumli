@@ -92,7 +92,7 @@ Dataset(
                 (
                     date: Some("2023-06-11"),
                     notice: BadPerformance("Possible TPS impact, but reasonable. Landing pad blinking lights cause whole game's GlowGrid to recalculate on each blink... Thats 6 to 10 ms spikes, depending on your light amount. Disable that option, as its enabled by default."),
-                    certainy: Medium, // Only original was listed, but no optimizations mentioned on continued page
+                    certainty: Medium, // Only original was listed, but no optimizations mentioned on continued page
                 )
             ]
         ),
