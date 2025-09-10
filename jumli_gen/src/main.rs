@@ -1,17 +1,10 @@
-#![allow(dead_code)] // TODO: Remove
+use std::{env, error::Error, fs::OpenOptions, io::BufWriter, path::PathBuf};
 
-use std::{
-    env,
-    error::Error,
-    fs::{File, OpenOptions},
-    io::{BufWriter, Write},
-    path::PathBuf,
-};
-
+use maud::html;
 use tracing::error;
 
 use crate::{
-    records::DatabaseBuilder,
+    records::{DatabaseBuilder, types::ModIdentifier},
     sources::{
         jumli_data::JumliData, use_this_instead::UseThisInstead,
         workshop_database::WorkshopDatabase,
@@ -38,14 +31,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let mut builder = DatabaseBuilder::new();
-    builder.ingest_from(WorkshopDatabase::new()).await?;
+    //    builder.ingest_from(WorkshopDatabase::new()).await?; -- Frankly unnecessary since users of the site will already have RimSort. Just bloats the index.
     builder.ingest_from(UseThisInstead::new()).await?;
     builder.ingest_from(JumliData::new()).await?;
 
     let db = builder.finalize().await;
 
-    let generated_path = out_path.join("generated");
-    std::fs::create_dir(&generated_path)?;
+    let mods_path = out_path.join("mods");
+    std::fs::create_dir(&mods_path)?;
 
     serde_json::to_writer(
         BufWriter::new(
@@ -53,12 +46,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 .create(true)
                 .truncate(true)
                 .write(true)
-                .open(generated_path.join("index.json"))?,
+                .open(mods_path.join("index.json"))?,
         ),
         &db.indices,
     )?;
 
-    std::fs::create_dir(generated_path.join("mods"))?;
+    let workshop_path = out_path.join("workshop");
+    let package_path = out_path.join("package");
+    std::fs::create_dir(mods_path.join("mods"))?;
+    std::fs::create_dir(&workshop_path)?;
+    std::fs::create_dir(&package_path)?;
     for (idx, record) in db.records.iter().enumerate() {
         serde_json::to_writer(
             BufWriter::new(
@@ -66,11 +63,47 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     .create(true)
                     .truncate(true)
                     .write(true)
-                    .open(generated_path.join(format!("mods/{idx}.json")))?,
+                    .open(mods_path.join(format!("{idx}.json")))?,
             ),
             &record,
         )?;
+
+        std::fs::write(mods_path.join(format!("{idx}.html")), record.render_html())?;
+
+        'inner: for identifier in &record.identifiers {
+            match identifier {
+                ModIdentifier::PackageId(id) => {
+                    if id.is_empty() || !id.chars().all(|c| c != '/' && !c.is_control()) {
+                        continue 'inner;
+                    }
+                    std::fs::create_dir(package_path.join(id))?;
+                    std::fs::write(
+                        package_path.join(format! {"{id}/index.html"}),
+                        redirect_html(format!("/mods/{idx}.html")),
+                    )?;
+                }
+                ModIdentifier::WorkshopId(id) => {
+                    std::fs::create_dir(workshop_path.join(id.to_string()))?;
+                    std::fs::write(
+                        workshop_path.join(format!("{id}/index.html")),
+                        redirect_html(format!("/mods/{idx}.html")),
+                    )?;
+                }
+            }
+        }
     }
 
     Ok(())
+}
+
+fn redirect_html(destination: String) -> String {
+    html! {
+        head {
+            meta http-equiv="refresh" content=(format!("0; {destination}")){}
+        }
+        body {
+            p { "You are being redirected..." }
+        }
+    }
+    .into_string()
 }

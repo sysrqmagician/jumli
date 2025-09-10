@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 chrono = { version = "0.4.42", features = ["serde"] }
 git2 = "0.20.2"
+maud = "0.27.0"
 quick-xml = { version = "0.38.3", features = ["async-tokio", "serde", "serialize", "tokio"] }
 ron = "0.11.0"
 serde = { version = "1.0.219", features = ["derive"] }

@@ -13,27 +13,27 @@ use crate::{
 pub const REPOSITORY_URL: &'static str = "https://github.com/emipa606/UseThisInstead";
 
 #[derive(Deserialize)]
-struct UtiDocument {
+pub struct UtiDocument {
     #[serde(rename = "ModId")]
-    mod_id: String,
+    pub mod_id: String,
     #[serde(rename = "ModName")]
-    mod_name: String,
+    pub mod_name: String,
     #[serde(rename = "Author")]
-    author: String,
+    pub author: String,
     #[serde(rename = "SteamId")]
-    steam_id: u64,
+    pub steam_id: u64,
     #[serde(rename = "Versions")]
-    versions: String,
+    pub versions: String,
     #[serde(rename = "ReplacementModId")]
-    replacement_mod_id: String,
+    pub replacement_mod_id: String,
     #[serde(rename = "ReplacementName")]
-    replacement_name: String,
+    pub replacement_name: String,
     #[serde(rename = "ReplacementAuthor")]
-    replacement_author: String,
+    pub replacement_author: String,
     #[serde(rename = "ReplacementSteamId")]
-    replacement_steam_id: u64,
+    pub replacement_steam_id: u64,
     #[serde(rename = "ReplacementVersions")]
-    replacement_versions: String,
+    pub replacement_versions: String,
 }
 
 pub struct UseThisInstead {

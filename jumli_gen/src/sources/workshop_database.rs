@@ -14,8 +14,7 @@ use crate::{
 pub const REPOSITORY_URL: &'static str = "https://github.com/RimSort/Steam-Workshop-Database";
 
 #[derive(Deserialize, Debug)]
-struct Wsdb {
-    version: u64,
+pub struct Wsdb {
     database: HashMap<u64, WsdbRecord>,
 }
 
