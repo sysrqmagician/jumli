@@ -111,6 +111,102 @@ Dataset(
                     certainty: High,
                 )
             ]
+        ),
+        // Simple FX: Vapor Revaporized
+        (
+            identifiers: [
+                PackageId("atlas.simplefx.vapor.revaporized")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Humanoid Alien Races
+        (
+            identifiers: [
+                WorkshopId(839005762), // "Stable"
+                WorkshopId(2640710953), // Dev
+                PackageId("erdelf.humanoidalienraces")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Constant, heavy impact on performance. Recommend disabling. If you desperately want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
+                    certainty: High,
+                )
+            ]
+        ),
+        // PawnTargetFix
+        (
+            identifiers: [
+                PackageId("fed1splay.pawntargetfix"),
+                WorkshopId(2014789938)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Complex changes to combat AI have TPS impact scaling with amount of pawns. Consider disabling if you experience low TPS in combat."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Yayo's Animations
+        (
+            identifiers: [
+                PackageId("com.yayo.yayoani.continued")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Very heavy impact on TPS. You should disable it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Yayo's Caravan
+        (
+            identifiers: [
+                PackageId("mlie.yayoscaravan")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: Unstable("Very unstable. Might break your UI."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Allow Tool
+        (
+            identifiers: [
+                PackageId("unlimitedhugs.allowtool"),
+                WorkshopId(761421485)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: UseAlternative("Keyz' Allow Utilities", 3524716849, "Better performance, same features."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Smart Medicine
+        (
+            identifiers: [
+                WorkshopId(3526251680),
+                PackageId("memegoddess.smartmedicine")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: UseAlternative("Choose Your Medicine", 2937201140, "Smart Medicine has terrible performance. Choose Your Medicine has better performance and is more featureful."),
+                    certainty: High,
+                )
+            ]
         )
     ]
 )
