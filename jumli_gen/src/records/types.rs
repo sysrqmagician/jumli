@@ -27,13 +27,13 @@ impl ModRecord {
                 link rel="stylesheet" href="/report.css" {}
             }
             body {
-                h3 { "Identifiers" }
+                h4 { "Identifiers" }
                 ul {
                     @for identifier in &self.identifiers {
                         li { (identifier.to_string()) }
                     }
                 }
-                h3 { "Notices" }
+                h4 { "Notices" }
                 div.notices {
                     @for notice in &self.notices {
                         (PreEscaped(notice.render_html()))
