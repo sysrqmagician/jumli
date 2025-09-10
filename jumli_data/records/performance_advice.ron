@@ -194,6 +194,20 @@ Dataset(
                 )
             ]
         ),
+        // HugsLib
+        (
+            identifiers: [
+                PackageId("unlimitedhugs.hugslib"),
+                WorkshopId(818773962)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: Unstable("Might cause issues. If you can, replace any dependent mods and disable this."),
+                    certainty: High,
+                )
+            ]
+        ),
         // Smart Medicine
         (
             identifiers: [
