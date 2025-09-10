@@ -1,20 +1,11 @@
-use std::{
-    env,
-    error::Error,
-    fs::{FileType, OpenOptions},
-    io::BufWriter,
-    path::PathBuf,
-};
+use std::{env, error::Error, fs::OpenOptions, io::BufWriter, path::PathBuf};
 
 use maud::html;
 use tracing::{error, info};
 
 use crate::{
     records::{DatabaseBuilder, types::ModIdentifier},
-    sources::{
-        jumli_data::JumliData, use_this_instead::UseThisInstead,
-        workshop_database::WorkshopDatabase,
-    },
+    sources::{jumli_data::JumliData, use_this_instead::UseThisInstead},
 };
 
 pub mod consts;
