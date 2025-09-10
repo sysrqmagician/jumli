@@ -1,0 +1,19 @@
+Dataset(
+    name: "Known Bugs",
+    description: "Known bugs and workarounds",
+
+    records: [
+        (
+            identifiers: [
+                PackageId("ludeon.rimworld.odyssey")
+            ],
+            notices: [
+                (
+                    date: "2025-08-26",
+                    notice: BadPerformance("Update 1.6.4566 introduced a performance regression. If you are playing with Odyssey and no grav engine is present on the current map, the game will constantly search for one, scaling with the number of pawns present. As a workaround, simply place a grav engine using dev mode anywhere on the map."),
+                    certainty: High
+                )
+            ]
+        )
+    ]
+)
