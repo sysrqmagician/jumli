@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/index.css"></link>
+</head>
+
+<body>
+    <noscript><strong>Automatic modlist checking requires JavaScript.</strong></noscript>
+    <h1>Judge My List</h1>
+    <p>Get automated feedback on your RimWorld modlist</p>
+    <details>
+        <summary>How do I use this?</summary>
+        <ol>
+            <li>Open RimSort. If you don't already use it, you should <a href="https://rimsort.github.io/RimSort/user-guide/downloading-and-installing">get it</a>. Using the in-game mod sorting function might cause issues.</li>
+            <li>
+                Click <strong>File > Export > To Clipboard...</strong> in the main toolbar to copy your modlist in the required format.
+                <br />
+                <img src="/img/export2clip.png"></img>
+            </li>
+            <li>Paste the list into the text field below and click 'Submit'</li>
+            <li>After your list is processed, read and carefully consider the notes presented to you.</li>
+        </ol>
+    </details>
+    <br />
+    <div id="input_area">
+    <textarea id="list_input" placeholder="Paste your list here!"></textarea>
+    <button id="submit_button">Submit</button>
+    </div>
+    <div id="loading" hidden="">
+        <div class="spinner_container">
+            <div class="spinner"></div>
+            <p id="loading_label"></p>
+        </div>
+    </div>
+    <div id="results" hidden="">
+    </div>
+
+    <script>
+    function present() {
+      loading.setAttribute("hidden", true);
+      results.removeAttribute("hidden");
+    }
+
+
+    submit_button.addEventListener("click", async (e) => {
+        input_area.setAttribute("hidden", true);
+        loading.removeAttribute("hidden");
+
+        loading_label.textContent = "Parsing list...";
+
+        const input_lines = list_input.value.split("\n")
+        const list_start = input_lines.findIndex((x) => x === "") + 1;
+
+        if (list_start === 0) {
+          results.textContent = "Provided list was invalid. Read the instructions then refresh and try again.";
+          present();
+          return;
+        }
+
+        const mod_specs = input_lines.slice(list_start)
+        const spec_regex = new RegExp(/(.*) (\[.*\])(\[.*\])/);
+        let mods = [];
+
+        for (i in mod_specs) {
+          const spec = mod_specs[i];
+          const match = spec.match(spec_regex);
+
+          const name = match[1];
+          const package_id = match[2].slice(1, -1);
+          const url = match[3].slice(1, -1);
+
+          let workshop_id = null;
+          try {
+            const parsed_url = new URL(url);
+            if (parsed_url && parsed_url.hostname === "steamcommunity.com" && parsed_url.searchParams) {
+              workshop_id = parsed_url.searchParams.get("id");
+            }
+          } catch (_) {
+            // Ignore malformed URLs
+          }
+
+          mods.push([name, package_id, workshop_id]);
+        }
+        loading_label.textContent = "Fetching index...";
+
+        const index_response = await fetch("/mods/index.json");
+        if (!index_response.ok) {
+          results.textContent = `Unable to fetch Index: ${indexindex_response.status} ${index_response.statusText}`;
+          present();
+          return;
+        }
+
+        const index = await index_response.json();
+
+        let foundAnything = false;
+        loading_label.textContent = "Looking for notices...";
+        for (i in mods) {
+          const mod = mods[i];
+          let internal_id = null;
+
+          // Attempt to find by package id
+          internal_id = index[mod[1]];
+
+          // Attempt to find by workshop id
+          if (internal_id == null) {
+            internal_id = index[mod[1]];
+          }
+
+          if (internal_id == null) {
+            continue;
+          }
+
+          foundAnything = true;
+
+          let title = document.createElement("h3");
+          title.textContent = mod[0];
+          results.appendChild(title);
+
+          let frame = document.createElement("iframe");
+          frame.setAttribute("src", `/mods/${internal_id}.html`);
+          frame.setAttribute("frameBorder", "0");
+          results.appendChild(frame);
+        }
+
+        if (!foundAnything) {
+          results.textContent = "Nothing to report!";
+        }
+
+        present();
+    });
+    </script>
+</body>
+
+</html>

@@ -23,6 +23,9 @@ pub struct ModRecord {
 impl ModRecord {
     pub fn render_html(&self) -> String {
         html! {
+            head {
+                link rel="stylesheet" href="/report.css" {}
+            }
             body {
                 h3 { "Identifiers" }
                 ul {

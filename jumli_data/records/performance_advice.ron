@@ -1,6 +1,34 @@
 Dataset(
     name: "Common Performance Advice",
-    description: "Common performance advice",
+    description: "Advice commonly repeated in #performance-help-check-pins",
 
-    records: []
+    records: [
+        // Anomaly DLC
+        (
+            identifiers: [
+                PackageId("ludeon.rimworld.anomaly")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("The DLC is known to hit TPS quite heavily, even if its content is not immediately present. If you are having issues with your TPS and are not planning on an Anomaly-focused run, seriously consider disabling it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Interaction Bubbles Settings
+        (
+            identifiers: [
+                PackageId("jaxe.bubbles"),
+                WorkshopId(1516158345)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: Miscellaneous("Make sure you adjust your settings to hide interaction bubbles above speed 1 to avoid performance issues."),
+                    certainty: High,
+                )
+            ]
+        )
+    ]
 )

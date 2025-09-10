@@ -83,14 +83,17 @@ impl RecordSource for UseThisInstead {
                     )?))
                     .map_err(|e| format!("Failed to parse '{}': {e}", entry.path().display()))?;
 
+                let mut identifiers = vec![ModIdentifier::WorkshopId(doc.steam_id)];
+                // Some of our lovely modders do not think unique package names are important
+                if doc.mod_id != doc.replacement_mod_id {
+                    identifiers.push(ModIdentifier::PackageId(doc.mod_id));
+                }
+
                 Ok(IngestibleData {
-                    identifiers: vec![
-                        ModIdentifier::WorkshopId(doc.steam_id),
-                        ModIdentifier::PackageId(doc.mod_id),
-                    ],
+                    identifiers,
                     notices: vec![NoticeRecord {
                         notice: Notice::UseAlternative(
-                            doc.replacement_mod_id,
+                            doc.replacement_name,
                             Some(doc.replacement_steam_id),
                             None,
                         ),

@@ -1,0 +1,50 @@
+body {
+    margin: 0 33% 0 33%;
+    font-family: sans-serif;
+}
+
+#list_input {
+    width: 100%;
+    height: 400px;
+}
+
+summary {
+    text-decoration: underline;
+}
+
+#submit_button {
+    float: right;
+    margin-top: 5px;
+    width: 10%;
+    height: 30px;
+}
+
+.spinner_container {
+    display: grid;
+    justify-content: center;
+}
+
+div.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+iframe {
+    width: 100%;
+    height: 300px;
+    overflow: scroll;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -11,7 +11,10 @@ use tracing::{error, info};
 
 use crate::{
     records::{DatabaseBuilder, types::ModIdentifier},
-    sources::{jumli_data::JumliData, use_this_instead::UseThisInstead},
+    sources::{
+        jumli_data::JumliData, use_this_instead::UseThisInstead,
+        workshop_database::WorkshopDatabase,
+    },
 };
 
 pub mod consts;
@@ -40,7 +43,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let mut builder = DatabaseBuilder::new();
-    //    builder.ingest_from(WorkshopDatabase::new()).await?; -- Frankly unnecessary since users of the site will already have RimSort. Just bloats the index.
+    //    builder.ingest_from(WorkshopDatabase::new()).await?; -- Bloats the index and appears to be out-of-date often
     builder.ingest_from(UseThisInstead::new()).await?;
     builder.ingest_from(JumliData::new()).await?;
 
@@ -116,6 +119,7 @@ fn copy_dir(from: PathBuf, to: PathBuf) -> Result<(), std::io::Error> {
     for entry in read_dir {
         let entry = entry?;
         if entry.file_type()?.is_dir() {
+            std::fs::create_dir(to.join(entry.file_name()))?;
             copy_dir(entry.path(), to.join(entry.file_name()))?;
             continue;
         }
