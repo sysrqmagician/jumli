@@ -25,7 +25,89 @@ Dataset(
             notices: [
                 (
                     date: "2025-09-10",
-                    notice: Miscellaneous("Make sure you adjust your settings to hide interaction bubbles above speed 1 to avoid performance issues."),
+                    notice: Miscellaneous("To avoid performance issues, adjust the mod settings to hide interaction bubbles above speed 1."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // RimHUD Settings
+        (
+            identifiers: [
+                PackageId("jaxe.rimhud"),
+                WorkshopId(1508850027)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: Miscellaneous("To avoid performance issues, increase the refresh interval in the mod settings. The UI is still quite heavy, so close it when you want to run above speed 1."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Faster Game Loading Settings / Stability
+        (
+            identifiers: [
+                PackageId("taranchuk.fastergameloading")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: Unstable("Make sure you only enable the first option in the mod settings (more are enabled by default). Even with only that option enabled, this mod is experimental and might have compatibility issues. If your game becomes unresponsive during/after loading, try disabling it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Simple FX: Smoke
+        (
+            identifiers: [
+                PackageId("owlchemist.simplefx.smoke2"),
+                PackageId("owlchemist.simplefx.smoke")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Simple FX: Splashes
+        (
+            identifiers: [
+                PackageId("owlchemist.simplefx.splashes")
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // FPS Stabilizer
+        (
+            identifiers: [
+                PackageId("matvey24.fpsstabilizer"),
+                WorkshopId(3318922522)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("Much heavier on TPS than mod page makes it seem like. The trade-off of TPS to FPS is generally not worth it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // FrameRateControl
+        (
+            identifiers: [
+                PackageId("notfood.frameratecontrol"),
+                WorkshopId(1591142767)
+            ],
+            notices: [
+                (
+                    date: "2025-09-10",
+                    notice: BadPerformance("FrameRateControl is only worth using on ancient hardware if you struggle using other applications in the background. Usage on any modern system is going to cause fare more issues than it's worth."),
                     certainty: High,
                 )
             ]
