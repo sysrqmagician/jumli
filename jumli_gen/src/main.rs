@@ -1,14 +1,17 @@
-use std::{env, error::Error, fs::OpenOptions, io::BufWriter, path::PathBuf};
+use std::{
+    env,
+    error::Error,
+    fs::{FileType, OpenOptions},
+    io::BufWriter,
+    path::PathBuf,
+};
 
 use maud::html;
-use tracing::error;
+use tracing::{error, info};
 
 use crate::{
     records::{DatabaseBuilder, types::ModIdentifier},
-    sources::{
-        jumli_data::JumliData, use_this_instead::UseThisInstead,
-        workshop_database::WorkshopDatabase,
-    },
+    sources::{jumli_data::JumliData, use_this_instead::UseThisInstead},
 };
 
 pub mod consts;
@@ -23,6 +26,12 @@ async fn main() -> Result<(), Box<dyn Error>> {
     } else {
         error!("Missing required argument.\nExpected: jumli_gen <out_dir>");
         return Ok(());
+    };
+
+    let static_path = if let Some(path) = env::args().skip(2).next() {
+        Some(PathBuf::from(path))
+    } else {
+        None
     };
 
     if !out_path.is_dir() {
@@ -91,6 +100,27 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 }
             }
         }
+    }
+
+    if let Some(static_path) = static_path {
+        info!("Copying static assets.");
+        copy_dir(static_path, out_path)?;
+    }
+
+    Ok(())
+}
+
+fn copy_dir(from: PathBuf, to: PathBuf) -> Result<(), std::io::Error> {
+    let read_dir = std::fs::read_dir(from)?;
+
+    for entry in read_dir {
+        let entry = entry?;
+        if entry.file_type()?.is_dir() {
+            copy_dir(entry.path(), to.join(entry.file_name()))?;
+            continue;
+        }
+
+        std::fs::copy(entry.path(), to.join(entry.file_name()))?;
     }
 
     Ok(())

@@ -101,7 +101,7 @@ impl DatabaseBuilder {
         }
 
         let mut union_find = UnionFind::new(self.raw_records.len());
-        for (_, indices) in ident_to_records {
+        for indices in ident_to_records.into_values() {
             if indices.len() < 2 {
                 continue;
             }
