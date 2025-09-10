@@ -40,6 +40,10 @@ iframe {
     overflow: scroll;
 }
 
+nav {
+    float: right;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
