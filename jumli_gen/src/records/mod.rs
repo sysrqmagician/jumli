@@ -95,6 +95,11 @@ impl DatabaseBuilder {
         let mut ident_to_records: HashMap<ModIdentifier, Vec<usize>> = HashMap::new();
         for (idx, record) in self.raw_records.iter().enumerate() {
             for identifier in &record.identifiers {
+                // External sources occasionally include malformed identifiers, leading to bad consolidation
+                if identifier.is_invalid() {
+                    continue;
+                }
+
                 ident_to_records
                     .entry(identifier.clone())
                     .or_default()
