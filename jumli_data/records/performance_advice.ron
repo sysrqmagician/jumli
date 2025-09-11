@@ -315,7 +315,7 @@ Dataset(
             notices: [
                 (
                     date: "2025-09-11",
-                    notice: BetterAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constant checks."),
+                    notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constant checks."),
                     certainty: High,
                 )
             ]
