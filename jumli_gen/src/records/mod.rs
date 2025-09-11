@@ -7,19 +7,20 @@ use tracing::info;
 
 use crate::{
     records::types::{IngestibleData, ModIdentifier, ModRecord},
-    sources::RecordSource,
+    sources::{Diagnostics, RecordSource},
 };
 
 pub mod types;
 
 pub struct DatabaseBuilder {
     raw_records: Vec<IngestibleData>,
-    reported_errors: Vec<String>,
+    named_diagnostics: Vec<(String, Diagnostics)>,
 }
 
 pub struct Database {
     pub records: Vec<ModRecord>,
     pub indices: HashMap<String, usize>,
+    pub named_diagnostics: Vec<(String, Diagnostics)>,
 }
 
 struct UnionFind {
@@ -64,7 +65,7 @@ impl DatabaseBuilder {
     pub fn new() -> Self {
         Self {
             raw_records: Vec::new(),
-            reported_errors: Vec::new(),
+            named_diagnostics: Vec::new(),
         }
     }
 
@@ -78,9 +79,10 @@ impl DatabaseBuilder {
             self.raw_records.append(records);
         }
 
-        if let Some(errors) = source.get_errors() {
-            self.reported_errors.append(errors);
-        }
+        self.named_diagnostics.push((
+            format!("Source: {}", source.get_name()),
+            std::mem::take(&mut source.get_diagnostics()),
+        ));
         Ok(())
     }
 
@@ -145,6 +147,7 @@ impl DatabaseBuilder {
         Database {
             records: final_records,
             indices: final_indices,
+            named_diagnostics: self.named_diagnostics,
         }
     }
 }

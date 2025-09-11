@@ -1,15 +1,16 @@
 use std::{env, error::Error, fs::OpenOptions, io::BufWriter, path::PathBuf};
 
-use maud::html;
 use tracing::{error, info};
 
 use crate::{
     records::{DatabaseBuilder, types::ModIdentifier},
+    render::{RenderHtml, redirect_html, render_diagnostics},
     sources::{jumli_data::JumliData, use_this_instead::UseThisInstead},
 };
 
 pub mod consts;
 pub mod records;
+pub mod render;
 pub mod sources;
 
 #[tokio::main]
@@ -33,6 +34,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
         return Ok(());
     }
 
+    if let Some(static_path) = static_path {
+        info!("Copying static assets.");
+        copy_dir(&static_path, &out_path)?;
+    }
+
     let mut builder = DatabaseBuilder::new();
     //    builder.ingest_from(WorkshopDatabase::new()).await?; -- Bloats the index and appears to be out-of-date often
     builder.ingest_from(UseThisInstead::new()).await?;
@@ -40,9 +46,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let db = builder.finalize().await;
 
+    info!("Rendering diagnostics.");
+    std::fs::write(
+        out_path.join("diagnostics.html"),
+        render_diagnostics(&db.named_diagnostics),
+    )?;
+
     let mods_path = out_path.join("mods");
     std::fs::create_dir(&mods_path)?;
 
+    info!("Saving index.");
     serde_json::to_writer(
         BufWriter::new(
             OpenOptions::new()
@@ -54,6 +67,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         &db.indices,
     )?;
 
+    info!("Rendering reports.");
     let workshop_path = out_path.join("workshop");
     let package_path = out_path.join("package");
     std::fs::create_dir(mods_path.join("mods"))?;
@@ -96,22 +110,17 @@ async fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    if let Some(static_path) = static_path {
-        info!("Copying static assets.");
-        copy_dir(static_path, out_path)?;
-    }
-
     Ok(())
 }
 
-fn copy_dir(from: PathBuf, to: PathBuf) -> Result<(), std::io::Error> {
+fn copy_dir(from: &PathBuf, to: &PathBuf) -> Result<(), std::io::Error> {
     let read_dir = std::fs::read_dir(from)?;
 
     for entry in read_dir {
         let entry = entry?;
         if entry.file_type()?.is_dir() {
             std::fs::create_dir(to.join(entry.file_name()))?;
-            copy_dir(entry.path(), to.join(entry.file_name()))?;
+            copy_dir(&entry.path(), &to.join(entry.file_name()))?;
             continue;
         }
 
@@ -119,16 +128,4 @@ fn copy_dir(from: PathBuf, to: PathBuf) -> Result<(), std::io::Error> {
     }
 
     Ok(())
-}
-
-fn redirect_html(destination: String) -> String {
-    html! {
-        head {
-            meta http-equiv="refresh" content=(format!("0; {destination}")){}
-        }
-        body {
-            p { "You are being redirected..." }
-        }
-    }
-    .into_string()
 }

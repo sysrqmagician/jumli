@@ -52,3 +52,9 @@ nav {
         transform: rotate(360deg);
     }
 }
+
+code {
+    background-color: #f0f0f0;
+    border: black solid 1px;
+    padding: 3pt;
+}

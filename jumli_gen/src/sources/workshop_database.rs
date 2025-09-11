@@ -8,7 +8,7 @@ use tracing::info;
 use crate::{
     consts::LATEST_RIMWORLD_RELEASE,
     records::types::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
-    sources::RecordSource,
+    sources::{Diagnostics, RecordSource},
 };
 
 pub const REPOSITORY_URL: &'static str = "https://github.com/RimSort/Steam-Workshop-Database";
@@ -129,11 +129,11 @@ impl RecordSource for WorkshopDatabase {
         }
     }
 
-    fn get_errors(&mut self) -> Option<&mut Vec<String>> {
-        if self.errors.is_empty() {
-            None
-        } else {
-            Some(&mut self.errors)
-        }
+    fn get_diagnostics(self) -> Diagnostics {
+        todo!() // TODO: Need to implement if this source ends up used again
+    }
+
+    fn get_name(&self) -> &'static str {
+        "Workshop Database"
     }
 }

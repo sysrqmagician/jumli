@@ -9,7 +9,7 @@ use tracing::info;
 
 use crate::{
     records::types::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
-    sources::RecordSource,
+    sources::{Diagnostics, RecordSource},
 };
 
 pub const REPOSITORY_URL: &'static str = "https://github.com/sysrqmagician/jumli";
@@ -62,14 +62,14 @@ impl Into<Vec<IngestibleData>> for DatasetFile {
 
 pub struct JumliData {
     records: Vec<IngestibleData>,
-    errors: Vec<String>,
+    diagnostics: Diagnostics,
 }
 
 impl JumliData {
     pub fn new() -> Self {
         Self {
             records: Vec::new(),
-            errors: Vec::new(),
+            diagnostics: Diagnostics::new(),
         }
     }
 }
@@ -86,7 +86,8 @@ impl RecordSource for JumliData {
         repo_dir.push("jumli_repo");
 
         info!("Cloning JuMLi Repo to {repo_dir:?}.");
-        let _repo = repo_builder.clone(REPOSITORY_URL, &repo_dir)?;
+        let repo = repo_builder.clone(REPOSITORY_URL, &repo_dir)?;
+        self.diagnostics.add_git_info(&repo);
         info!("Cloned JuMLi Repo.");
 
         let mut records_dir = repo_dir.clone();
@@ -113,14 +114,13 @@ impl RecordSource for JumliData {
         while let Some(Ok(result)) = handles.join_next().await {
             match result {
                 Ok(mut record) => self.records.append(&mut record),
-                Err(error) => self.errors.push(error),
+                Err(error) => self.diagnostics.log(error),
             }
         }
 
         info!(
-            "Completed JuMLi processing, yielding {} records and {} errors.",
-            self.records.len(),
-            self.errors.len()
+            "Completed JuMLi processing, yielding {} records.",
+            self.records.len()
         );
 
         info!("Deleting JuMLi Repo {repo_dir:?}.",);
@@ -137,11 +137,11 @@ impl RecordSource for JumliData {
         }
     }
 
-    fn get_errors(&mut self) -> Option<&mut Vec<String>> {
-        if self.errors.is_empty() {
-            None
-        } else {
-            Some(&mut self.errors)
-        }
+    fn get_diagnostics(self) -> Diagnostics {
+        self.diagnostics
+    }
+
+    fn get_name(&self) -> &'static str {
+        "JuMLi Data"
     }
 }

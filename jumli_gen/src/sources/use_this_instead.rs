@@ -7,7 +7,7 @@ use tracing::info;
 
 use crate::{
     records::types::{Certainty, IngestibleData, ModIdentifier, Notice, NoticeRecord, Source},
-    sources::RecordSource,
+    sources::{Diagnostics, RecordSource},
 };
 
 pub const REPOSITORY_URL: &'static str = "https://github.com/emipa606/UseThisInstead";
@@ -38,13 +38,13 @@ pub struct UtiDocument {
 
 pub struct UseThisInstead {
     records: Vec<IngestibleData>,
-    errors: Vec<String>,
+    diagnostics: Diagnostics,
 }
 
 impl UseThisInstead {
     pub fn new() -> Self {
         Self {
-            errors: Vec::new(),
+            diagnostics: Diagnostics::new(),
             records: Vec::new(),
         }
     }
@@ -62,7 +62,8 @@ impl RecordSource for UseThisInstead {
         repo_dir.push("jumli_uti");
 
         info!("Cloning UTI Repo to {repo_dir:?}.");
-        let _repo = repo_builder.clone(REPOSITORY_URL, &repo_dir)?;
+        let repo = repo_builder.clone(REPOSITORY_URL, &repo_dir)?;
+        self.diagnostics.add_git_info(&repo);
         info!("Cloned UTI Repo.");
 
         let mut replacements_dir = repo_dir.clone();
@@ -109,14 +110,13 @@ impl RecordSource for UseThisInstead {
         while let Some(Ok(result)) = handles.join_next().await {
             match result {
                 Ok(record) => self.records.push(record),
-                Err(error) => self.errors.push(error),
+                Err(error) => self.diagnostics.log(error),
             }
         }
 
         info!(
-            "Completed UTI processing, yielding {} records and {} errors.",
+            "Completed UTI processing, yielding {} records.",
             self.records.len(),
-            self.errors.len()
         );
 
         info!("Deleting UTI Repo {repo_dir:?}.",);
@@ -133,11 +133,11 @@ impl RecordSource for UseThisInstead {
         }
     }
 
-    fn get_errors(&mut self) -> Option<&mut Vec<String>> {
-        if self.errors.is_empty() {
-            None
-        } else {
-            Some(&mut self.errors)
-        }
+    fn get_diagnostics(self) -> Diagnostics {
+        self.diagnostics
+    }
+
+    fn get_name(&self) -> &'static str {
+        "Use This Instead"
     }
 }
