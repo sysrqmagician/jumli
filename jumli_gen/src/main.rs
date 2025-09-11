@@ -47,10 +47,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let db = builder.finalize().await;
 
     info!("Rendering diagnostics.");
-    std::fs::write(
-        out_path.join("diagnostics.html"),
-        render_diagnostics(&db.named_diagnostics),
-    )?;
+    std::fs::write(out_path.join("diagnostics.html"), render_diagnostics(&db))?;
 
     let mods_path = out_path.join("mods");
     std::fs::create_dir(&mods_path)?;

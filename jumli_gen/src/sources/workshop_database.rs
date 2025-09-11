@@ -47,6 +47,7 @@ pub struct WorkshopDatabase {
     errors: Vec<String>,
 }
 
+#[deprecated]
 impl WorkshopDatabase {
     pub fn new() -> Self {
         Self {

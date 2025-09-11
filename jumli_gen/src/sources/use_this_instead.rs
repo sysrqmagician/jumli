@@ -118,6 +118,8 @@ impl RecordSource for UseThisInstead {
             "Completed UTI processing, yielding {} records.",
             self.records.len(),
         );
+        self.diagnostics
+            .add_property("raw_records_count", self.records.len().to_string());
 
         info!("Deleting UTI Repo {repo_dir:?}.",);
 

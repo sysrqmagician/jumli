@@ -1,4 +1,4 @@
-use std::{collections::HashMap, error::Error};
+use std::error::Error;
 
 use chrono::{TimeZone, Utc};
 use git2::Repository;
@@ -13,7 +13,7 @@ pub mod workshop_database;
 #[derive(Default)]
 pub struct Diagnostics {
     /// Properties to be displayed in a table
-    properties: Option<HashMap<String, String>>,
+    properties: Option<Vec<(String, String)>>,
     /// Non-fatal errors and misc. info
     log_lines: Option<Vec<String>>,
 }
@@ -30,13 +30,13 @@ impl Diagnostics {
         self.log_lines.get_or_insert_default().push(message.into());
     }
 
-    pub fn set_property(&mut self, key: impl Into<String>, value: impl Into<String>) {
+    pub fn add_property(&mut self, key: impl Into<String>, value: impl Into<String>) {
         self.properties
             .get_or_insert_default()
-            .insert(key.into(), value.into());
+            .push((key.into(), value.into()));
     }
 
-    pub fn get_properties(&self) -> Option<&HashMap<String, String>> {
+    pub fn get_properties(&self) -> Option<&Vec<(String, String)>> {
         self.properties.as_ref()
     }
 
@@ -48,8 +48,8 @@ impl Diagnostics {
         let latest_commit = repo.head().and_then(|x| x.peel_to_commit());
         match latest_commit {
             Ok(latest_commit) => {
-                self.set_property("git_commit", latest_commit.id().to_string());
-                self.set_property(
+                self.add_property("git_commit", latest_commit.id().to_string());
+                self.add_property(
                     "git_commit_summary",
                     latest_commit.summary().unwrap_or("Failed to retrieve."),
                 );
@@ -63,7 +63,7 @@ impl Diagnostics {
                     .latest()
                     .and_then(|x| Some(x.to_rfc3339()));
 
-                self.set_property(
+                self.add_property(
                     "git_commit_time",
                     timestamp.unwrap_or("Failed to retrieve.".into()),
                 );

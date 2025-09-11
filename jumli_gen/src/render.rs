@@ -1,9 +1,9 @@
 use chrono::Utc;
 use maud::{PreEscaped, html};
 
-use crate::{
-    records::types::{ModRecord, Notice, NoticeRecord},
-    sources::Diagnostics,
+use crate::records::{
+    Database,
+    types::{ModRecord, Notice, NoticeRecord},
 };
 
 pub trait RenderHtml {
@@ -103,7 +103,7 @@ pub fn redirect_html(destination: String) -> String {
     .into_string()
 }
 
-pub fn render_diagnostics(named_diagnostics: &Vec<(String, Diagnostics)>) -> String {
+pub fn render_diagnostics(db: &Database) -> String {
     html! {
         head {
             link rel="stylesheet" href="/index.css" {}
@@ -114,12 +114,13 @@ pub fn render_diagnostics(named_diagnostics: &Vec<(String, Diagnostics)>) -> Str
                 a href="/" { "Home" }
             }
             main {
-                p { "JuMLi was last built around " code { (Utc::now().to_rfc3339()) } }
-                @for (name, diag) in named_diagnostics {
+                p { "JuMLi was last built around " code { (Utc::now().to_rfc3339()) } "." }
+                p { "Database currently contains " (db.records.len()) " consolidated mod records."}
+                @for (name, diag) in &db.named_diagnostics {
                     h3 { (name) }
                     @if let Some(props) = diag.get_properties() {
                         table {
-                            @for (key, value) in props.iter() {
+                            @for (key, value) in props {
                                tr {
                                    th { (key) }
                                    td { (value) }
