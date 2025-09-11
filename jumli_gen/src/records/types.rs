@@ -25,6 +25,7 @@ impl ModRecord {
         html! {
             head {
                 link rel="stylesheet" href="/report.css" {}
+                base target="_blank" {}
             }
             body {
                 h4 { "Identifiers" }

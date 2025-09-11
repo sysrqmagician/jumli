@@ -89,6 +89,7 @@
 
           mods.push([name, package_id, workshop_id]);
         }
+        console.log(mods);
         loading_label.textContent = "Fetching index...";
 
         const index_response = await fetch("/mods/index.json");
