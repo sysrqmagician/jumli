@@ -119,7 +119,7 @@ pub fn render_diagnostics(db: &Database) -> String {
                 @for (name, diag) in &db.named_diagnostics {
                     h3 { (name) }
                     @if let Some(props) = diag.get_properties() {
-                        table {
+                        table class="diagnostics" {
                             @for (key, value) in props {
                                tr {
                                    th { (key) }
