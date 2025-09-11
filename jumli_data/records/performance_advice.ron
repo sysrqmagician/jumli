@@ -221,6 +221,104 @@ Dataset(
                     certainty: High,
                 )
             ]
-        )
+        ),
+        // [NL] Facial Animation
+        (
+            identifiers: [
+                WorkshopId(1635901197),
+                PackageId("nals.facialanimation")
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: BadPerformance("Heavy on TPS. Consider disabling if you run into issues."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Melee Animation
+        (
+            identifiers: [
+                WorkshopId(2944488802),
+                PackageId("co.uk.epicguru.meleeanimation")
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: BadPerformance("Heavy on TPS. Consider disabling if you run into issues."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Holsters
+        (
+            identifiers: [
+                WorkshopId(2610120706),
+                PackageId("iworosiak.holsters")
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: BadPerformance("Somewhat heavy on TPS. Consider disabling if you run into issues."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Allies are Helpful (1.6 Fork)
+        (
+            identifiers: [
+                PackageId("ninagoblin.alliesarehelpful"),
+                WorkshopId(3534920369)
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: BadPerformance("Scales poorly with amount of allies on map. Consider disabling if you run into TPS issues."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Animal Logic
+        (
+            identifiers: [
+                PackageId("oblitus.animalslogic"),
+                WorkshopId(1098354593)
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: Unstable("Generally considered unstable, especially the AI tweaks."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // VPE Puppeteer
+        (
+            identifiers: [
+                WorkshopId(3033779606),
+                PackageId("vanillaexpanded.vpe.puppeteer")
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: BadPerformance("Heavy on TPS even if content is not in use. Consider disabling if you aren't making heavy use of it."),
+                    certainty: High,
+                )
+            ]
+        ),
+        // Ugh You Got Me
+        (
+            identifiers: [
+                WorkshopId(1542424705),
+                PackageId("marvinkosh.ughyougotme")
+            ],
+            notices: [
+                (
+                    date: "2025-09-11",
+                    notice: BetterAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constant checks."),
+                    certainty: High,
+                )
+            ]
+        ),
     ]
 )
