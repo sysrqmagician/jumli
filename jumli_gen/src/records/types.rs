@@ -106,7 +106,7 @@ impl NoticeRecord {
                     Notice::UseAlternative(alternative_name, workshop_id, reason) => {
                         strong { (format!("Better Alternative Available: {alternative_name}")) }
                         @if let Some(workshop_id) = workshop_id {
-                            a href=(format!("https://steamcommunity.com/sharedfiles/filedetails/?id={workshop_id}")) { "Steam Workshop" }
+                            a class="workshop-alternative" href=(format!("https://steamcommunity.com/sharedfiles/filedetails/?id={workshop_id}")) { "Steam Workshop" }
                         }
                         @if let Some(reason) = reason {
                             p { (reason) }

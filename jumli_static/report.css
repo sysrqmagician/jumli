@@ -5,3 +5,7 @@ body {
 p.source {
     font-style: italic;
 }
+
+a.workshop-alternative {
+    margin-left: 10px;
+}
