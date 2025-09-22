@@ -1,5 +1,6 @@
 use std::{env, error::Error, fs::OpenOptions, io::BufWriter, path::PathBuf};
 
+use mapmysite::{ChangeFreq, Sitemap, SitemapUrl};
 use tracing::{error, info};
 
 use crate::{
@@ -12,6 +13,12 @@ pub mod consts;
 pub mod records;
 pub mod render;
 pub mod sources;
+
+pub const SUBDIR_WORKSHOP_REDIRECT: &'static str = "workshop";
+pub const SUBDIR_PACKAGEID_REDIRECT: &'static str = "package";
+pub const SUBDIR_MOD_REPORTS: &'static str = "mods";
+pub const PATH_DIAGNOSTICS_REPORT: &'static str = "diagnostics.html";
+pub const SITEMAP_URL_BASE: &'static str = "https://jumli.sysrqmagician.dev";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -34,11 +41,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
         return Ok(());
     }
 
-    if let Some(static_path) = static_path {
-        info!("Copying static assets.");
-        copy_dir(&static_path, &out_path)?;
-    }
-
     let mut builder = DatabaseBuilder::new();
     //    builder.ingest_from(WorkshopDatabase::new()).await?; -- Bloats the index and appears to be out-of-date often
     builder.ingest_from(UseThisInstead::new()).await?;
@@ -46,10 +48,30 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let db = builder.finalize().await;
 
-    info!("Rendering diagnostics.");
-    std::fs::write(out_path.join("diagnostics.html"), render_diagnostics(&db))?;
+    let mut sitemap = Sitemap::new();
+    sitemap.add_url(
+        SitemapUrl::from_base(SITEMAP_URL_BASE, "")
+            .change_frequency(ChangeFreq::Daily)
+            .last_modified_now(),
+    );
 
-    let mods_path = out_path.join("mods");
+    if let Some(static_path) = static_path {
+        info!("Copying static assets.");
+        copy_static(&mut sitemap, &static_path, &out_path)?;
+    }
+
+    info!("Rendering diagnostics.");
+    std::fs::write(
+        out_path.join(PATH_DIAGNOSTICS_REPORT),
+        render_diagnostics(&db),
+    )?;
+    sitemap.add_url(
+        SitemapUrl::from_base(SITEMAP_URL_BASE, PATH_DIAGNOSTICS_REPORT)
+            .change_frequency(ChangeFreq::Daily)
+            .last_modified_now()
+            .priority(1.0),
+    );
+    let mods_path = out_path.join(SUBDIR_MOD_REPORTS);
     std::fs::create_dir(&mods_path)?;
 
     info!("Saving index.");
@@ -65,9 +87,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     )?;
 
     info!("Rendering reports.");
-    let workshop_path = out_path.join("workshop");
-    let package_path = out_path.join("package");
-    std::fs::create_dir(mods_path.join("mods"))?;
+    let workshop_path = out_path.join(SUBDIR_WORKSHOP_REDIRECT);
+    let package_path = out_path.join(SUBDIR_PACKAGEID_REDIRECT);
     std::fs::create_dir(&workshop_path)?;
     std::fs::create_dir(&package_path)?;
     for (idx, record) in db.records.iter().enumerate() {
@@ -93,36 +114,77 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     std::fs::create_dir(package_path.join(id))?;
                     std::fs::write(
                         package_path.join(format! {"{id}/index.html"}),
-                        redirect_html(format!("/mods/{idx}.html")),
+                        redirect_html(format!("/{SUBDIR_MOD_REPORTS}/{idx}.html")),
                     )?;
+
+                    sitemap.add_url(
+                        SitemapUrl::from_base(
+                            SITEMAP_URL_BASE,
+                            format!("{SUBDIR_PACKAGEID_REDIRECT}/{id}"),
+                        )
+                        .change_frequency(ChangeFreq::Daily)
+                        .last_modified_now()
+                        .priority(0.5),
+                    );
                 }
+
                 ModIdentifier::WorkshopId(id) => {
                     std::fs::create_dir(workshop_path.join(id.to_string()))?;
                     std::fs::write(
                         workshop_path.join(format!("{id}/index.html")),
-                        redirect_html(format!("/mods/{idx}.html")),
+                        redirect_html(format!("/{SUBDIR_MOD_REPORTS}/{idx}.html")),
                     )?;
+
+                    sitemap.add_url(
+                        SitemapUrl::from_base(
+                            SITEMAP_URL_BASE,
+                            format!("{SUBDIR_WORKSHOP_REDIRECT}/{id}"),
+                        )
+                        .change_frequency(ChangeFreq::Daily)
+                        .last_modified_now()
+                        .priority(0.5),
+                    );
                 }
             }
         }
     }
+    std::fs::write(out_path.join("sitemap.xml"), sitemap.to_string()?)?;
 
     Ok(())
 }
 
-fn copy_dir(from: &PathBuf, to: &PathBuf) -> Result<(), std::io::Error> {
-    let read_dir = std::fs::read_dir(from)?;
+fn copy_static(sitemap: &mut Sitemap, from: &PathBuf, to: &PathBuf) -> Result<(), Box<dyn Error>> {
+    fn recurse(
+        sitemap: &mut Sitemap,
+        root: &PathBuf,
+        from: &PathBuf,
+        to: &PathBuf,
+    ) -> Result<(), Box<dyn Error>> {
+        let read_dir = std::fs::read_dir(from)?;
+        for entry in read_dir {
+            let entry = entry?;
+            if entry.file_type()?.is_dir() {
+                std::fs::create_dir(to.join(entry.file_name()))?;
+                recurse(sitemap, &root, &entry.path(), &to.join(entry.file_name()))?;
+                continue;
+            }
 
-    for entry in read_dir {
-        let entry = entry?;
-        if entry.file_type()?.is_dir() {
-            std::fs::create_dir(to.join(entry.file_name()))?;
-            copy_dir(&entry.path(), &to.join(entry.file_name()))?;
-            continue;
+            std::fs::copy(entry.path(), to.join(entry.file_name()))?;
+            if entry.path().extension().and_then(|x| x.to_str()) == Some("html") {
+                sitemap.add_url(
+                    SitemapUrl::from_base(
+                        SITEMAP_URL_BASE,
+                        entry.path().strip_prefix(root)?.display(),
+                    )
+                    .change_frequency(ChangeFreq::Daily)
+                    .last_modified_now()
+                    .priority(1.0),
+                );
+            }
         }
-
-        std::fs::copy(entry.path(), to.join(entry.file_name()))?;
+        Ok(())
     }
+    recurse(sitemap, from, from, to)?;
 
     Ok(())
 }
