@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JuMLi: From Rentry</title>
+    <meta property="description" content="Get a Discord-ready performance report on a RimWorld modlist exported to Rentry"></meta>
+    <meta property="og:title" content="JuMLi: From Rentry"></meta>
+    <meta property="og:description" content="Get a Discord-ready report on a RimWorld modlist exported to Rentry"></meta>
+    <meta property="og:url" content="https://jumli.sysrqmagician.dev"></meta>
+    <link rel="stylesheet" href="/index.css"></link>
+</head>
+
+<body>
+    <noscript><strong>Automatic modlist checking requires JavaScript. You can still look up individual mods as detailed on the Quick Lookup page.</strong></noscript>
+    <h1>JuMLi: From Rentry</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/quick.html">Quick Lookup</a>
+       <a href="https://github.com/sysrqmagician/jumli">GitHub Repository</a>
+    </nav>
+    <p>Get a Discord-ready report on a RimWorld modlist exported to Rentry</p>
+    <details>
+        <summary>How do I use this?</summary>
+        <ol>
+            <li>Open the Rentry link somebody created using RimSort (RimPy exports are not supported at the moment).</li>
+            <li>
+                Click the 'Edit' button in the bottom-left corner.
+            </li>
+            <li>Copy the Rentry's markup text and paste it into field below.</li>
+            <li>Click 'Submit' and copy the output.</li>
+        </ol>
+    </details>
+    <br />
+    <div id="input_area">
+    <textarea id="list_input" placeholder="Paste your markup here!"></textarea>
+    <button id="submit_button">Submit</button>
+    </div>
+    <div id="loading" hidden="">
+        <div class="spinner_container">
+            <div class="spinner"></div>
+            <p id="loading_label"></p>
+        </div>
+    </div>
+    <div id="results" hidden="">
+    </div>
+
+    <script>
+    function present() {
+      loading.setAttribute("hidden", true);
+      results.removeAttribute("hidden");
+    }
+
+
+    submit_button.addEventListener("click", async (e) => {
+        input_area.setAttribute("hidden", true);
+        loading.removeAttribute("hidden");
+
+        loading_label.textContent = "Parsing list...";
+
+        const input_lines = list_input.value.split("\n");
+        const list_start = 9;
+
+        if (!input_lines[0].startsWith("# ")) {
+          results.textContent = "Provided list was invalid. Read the instructions then refresh and try again.";
+          present();
+          return;
+        }
+
+        const mod_specs = input_lines.slice(list_start)
+        const steam_spec_regex = new RegExp(/[0-9]+\. !\[\].* \[(.*)\]\(.*filedetails\/\?id=([0-9]+) packageid: (.*)\)/);
+        const local_spec_regex = new RegExp(/!!! warning [0-9]+\. (\[(.*)\]|.*).*{packageid: (.*)}/);
+        let mods = [];
+
+        for (i in mod_specs) {
+          const spec = mod_specs[i];
+          let name, workshop_id, package_id;
+          if (spec.startsWith("!!! warning")) {
+            const match = spec.match(local_spec_regex);
+            name = match[2] == null ? match[1] : match[2];
+            package_id = match[3];
+
+          } else {
+            const match = spec.match(steam_spec_regex);
+            name = match[1];
+            workshop_id = match[2];
+            package_id = match[3];
+          }
+
+          mods.push([name, package_id, workshop_id]);
+        }
+
+        loading_label.textContent = "Fetching index...";
+
+        const index_response = await fetch("/mods/index.json");
+        if (!index_response.ok) {
+          results.textContent = `Unable to fetch Index: ${indexindex_response.status} ${index_response.statusText}`;
+          present();
+          return;
+        }
+
+        const index = await index_response.json();
+
+        let out = "";
+        let foundAnything = false;
+        loading_label.textContent = "Looking for notices...";
+
+        for (i in mods) {
+          const mod = mods[i];
+          let internal_id = null;
+
+          // Attempt to find by package id
+          internal_id = index[mod[1]];
+
+          // Attempt to find by workshop id
+          if (internal_id == null) {
+            internal_id = index[mod[1]];
+          }
+
+          if (internal_id == null) {
+            continue;
+          }
+          foundAnything = true;
+
+          loading_label.textContent = `Fetching report for mod ${internal_id}...`;
+          const report_response = await fetch(`/mods/${internal_id}.json`);
+          if (!report_response.ok) {
+            results.textContent = `Unable to fetch report: ${indexindex_response.status} ${report_response.statusText}`;
+            present();
+            return;
+          }
+          const report = await report_response.json();
+
+          out += `**${mod[0]}**\n`;
+          for (idx in report.notices) {
+            const notice = report.notices[idx];
+            const notice_kind_data = Object.entries(notice["notice"])[0];
+            const source_kind_name = Object.entries(notice["source"])[0];
+            out += `-# ${notice_kind_data[0]} (${source_kind_name[0]} ${source_kind_name[1]}, ${notice.date})\n`;
+
+            if (notice_kind_data[0] == "UseAlternative") {
+              // [1] = [alternative_name, alternative_workshop_id, description]
+              const data = notice_kind_data[1];
+              if (data[1] == null) {
+                out += `Recommended Alternative: ${data[0]}\n${date[2]}\n`;
+              } else {
+                out += `Recommended Alternative: [${data[0]}](https://steamcommunity.com/sharedfiles/filedetails/?id=${data[1]})\n${data[2]}\n`;
+              }
+            } else {
+              out += `${notice_kind_data[1]}\n`;
+            }
+            out += '\n';
+          }
+        }
+
+
+        if (!foundAnything) {
+          results.textContent = "Nothing to report!";
+        } else {
+          out += "-# ~~                                ~~\n"
+          out += "-# Report generated using [JuMLi](https://jumli.sysrqmagician.dev)"
+
+          let outArea = document.createElement("textarea");
+          outArea.value = out;
+          outArea.setAttribute("disabled", true);
+          results.appendChild(outArea);
+
+          let copyButton = document.createElement("button");
+          copyButton.textContent = "Copy";
+          copyButton.id = "copy_button";
+          copyButton.addEventListener('click', (e) => {
+            navigator.clipboard.writeText(out);
+          });
+          results.appendChild(copyButton);
+        }
+        present();
+    });
+    </script>
+
+    <iframe src="/footer.html" width="100%" frameBorder="0"></iframe>
+</body>
+
+</html>

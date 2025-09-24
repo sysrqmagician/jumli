@@ -3,7 +3,8 @@ body {
     font-family: sans-serif;
 }
 
-#list_input {
+#list_input,
+#results > textarea {
     width: 100%;
     height: 400px;
 }
@@ -12,7 +13,8 @@ summary {
     text-decoration: underline;
 }
 
-#submit_button {
+#submit_button,
+#copy_button {
     float: right;
     margin-top: 5px;
     width: 10%;
