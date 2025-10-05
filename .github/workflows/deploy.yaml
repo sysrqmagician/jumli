@@ -24,7 +24,7 @@ jobs:
         run: mkdir _site
       
       - name: Build the project
-        run: cargo run --release -- _site jumli_static
+        run: cargo run -- _site jumli_static
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
