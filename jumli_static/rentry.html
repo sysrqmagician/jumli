@@ -21,7 +21,7 @@
     <details>
         <summary>How do I use this?</summary>
         <ol>
-            <li>Open the Rentry link somebody created using RimSort (RimPy exports are not supported at the moment).</li>
+            <li>Open the Rentry link somebody created using RimSort or RimPy.</li>
             <li>
                 Click the 'Edit' button in the bottom-left corner.
             </li>
@@ -57,17 +57,11 @@
         loading_label.textContent = "Parsing list...";
 
         const input_lines = list_input.value.split("\n");
-        const list_start = 9;
-
-        if (!input_lines[0].startsWith("# ")) {
-          results.textContent = "Provided list was invalid. Read the instructions then refresh and try again.";
-          present();
-          return;
-        }
+        const list_start = input_lines.findIndex(x => x.startsWith("1."));
 
         const mod_specs = input_lines.slice(list_start)
-        const steam_spec_regex = new RegExp(/[0-9]+\. !\[\].* \[(.*)\]\(.*filedetails\/\?id=([0-9]+) packageid: (.*)\)/);
-        const local_spec_regex = new RegExp(/!!! warning [0-9]+\. (\[(.*)\]|.*).*{packageid: (.*)}/);
+        const steam_spec_regex = new RegExp(/[0-9]+\. !\[\].* \[(.*)\]\(.*filedetails\/\?id=([0-9]+) package[Ii]d: (.*)\)/);
+        const local_spec_regex = new RegExp(/!!! warning [0-9]+\. (\[(.*)\]|.*).*{package[Ii]d: (.*)}/);
         let mods = [];
 
         for (i in mod_specs) {
@@ -75,11 +69,20 @@
           let name, workshop_id, package_id;
           if (spec.startsWith("!!! warning")) {
             const match = spec.match(local_spec_regex);
+            if (!match) {
+              console.log("Bad spec: ", spec);
+              continue;
+            }
+
             name = match[2] == null ? match[1] : match[2];
             package_id = match[3];
-
           } else {
             const match = spec.match(steam_spec_regex);
+            if (!match) {
+              console.log("Bad spec: ", spec);
+              continue;
+            }
+
             name = match[1];
             workshop_id = match[2];
             package_id = match[3];
