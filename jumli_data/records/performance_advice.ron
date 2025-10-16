@@ -320,5 +320,47 @@ Dataset(
                 )
             ]
         ),
+        // Camera+
+        (
+          identifiers: [
+            WorkshopId(867467808),
+            PackageId("brrainz.cameraplus")
+          ],
+          notices: [
+              (
+                  date: "2025-10-16",
+                  notice: UseAlternative("SimpleCameraSetting", 3232415388, "Similar featureset, better performance."),
+                  certainty: Medium,
+              )
+          ]
+        ),
+        // Combat Extended
+        (
+          identifiers: [
+            WorkshopId(2890901044),
+            WorkshopId(3495749827),
+            PackageId("ceteam.combatextended")
+          ],
+          notices: [
+              (
+                  date: "2025-10-16",
+                  notice: BadPerformance("Some impact on TPS, but reasonable considering what it does. Heavy impact during combat. Turrets scan constantly, which is made worse by their higher range in CE, turn them off when not in combat."),
+                  certainty: High,
+              )
+          ]
+        ),
+        // Vehicle Map Framework
+        (
+          identifiers: [
+            WorkshopId(3426502333)
+          ],
+          notices: [
+              (
+                  date: "2025-09-15",
+                  notice: BadPerformance("Heavy impact on TPS, though author appears to be actively working on improving performance. Considering engine limitations, it is likely always going to have a noticeable impact. Consider what it does for you and decide if you have the TPS to spare."),
+                  certainty: Medium,
+              )
+          ]
+        )
     ]
 )
