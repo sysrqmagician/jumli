@@ -46,3 +46,9 @@ Dataset(
 A custom static site generator written in Rust. It uses data from Use This Instead and jumli_data to build an index for jumli_static and generate HTML/JSON mod reports.
 ### jumli_static
 Static assets included with jumli_gen builds, including the list checking page and documentation.
+
+
+## License
+jumli_gen and jumli_static are made available under the terms of the GNU General Public License, version 3.
+
+The datasets contained in jumli_data are available under the terms of the Creative Commons Zero 1.0 Universal license.
