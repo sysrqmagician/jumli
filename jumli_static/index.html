@@ -36,6 +36,13 @@
     <textarea id="list_input" placeholder="Paste your list here!"></textarea>
     <button id="submit_button">Submit</button>
     </div>
+    <div id="errors_container" hidden="">
+      <details open="">
+        <summary>Drats! JuMLi encountered an issue while processing your list. Results may be incomplete.</summary>
+        <p>Please <a href="https://github.com/sysrqmagician/jumli/issues/new">create an issue on GitHub</a> and include the following logs as well as your modlist (exported to clipboard).</p>
+        <textarea id="logs_ta"></textarea>
+      </details>
+    </div>
     <div id="loading" hidden="">
         <div class="spinner_container">
             <div class="spinner"></div>
@@ -51,29 +58,50 @@
       results.removeAttribute("hidden");
     }
 
+    function present_errors(logs) {
+      logs_ta.value = logs.join('\n');
+      errors_container.removeAttribute("hidden");
+      logs_ta.style.height = `${logs_ta.scrollHeight}px`;
+    }
 
     submit_button.addEventListener("click", async (e) => {
+      let logs = [`[INFO] Started at ${new Date().toString()}.`];
+
         input_area.setAttribute("hidden", true);
         loading.removeAttribute("hidden");
 
         loading_label.textContent = "Parsing list...";
 
         const input_lines = list_input.value.split("\n")
+        if (!input_lines) {
+          results.textContent = "Provided list was invalid (null). Read the instructions, then refresh and try again.";
+          present();
+          return;
+        }
         const list_start = input_lines.findIndex((x) => x === "") + 1;
 
         if (list_start === 0) {
-          results.textContent = "Provided list was invalid. Read the instructions then refresh and try again.";
+          results.textContent = "Provided list was invalid (could not find start). Read the instructions, then refresh and try again.";
           present();
           return;
         }
 
+        logs.push(`[INFO] Input consists of ${input_lines.length} lines. List starts at index ${list_start}.`)
+
         const mod_specs = input_lines.slice(list_start)
         const spec_regex = new RegExp(/(.*) (\[.*\])(\[.*\])/);
         let mods = [];
+        let errors = 0;
 
         for (i in mod_specs) {
           const spec = mod_specs[i];
           const match = spec.match(spec_regex);
+
+          if (!match || match.length < 4) {
+            logs.push(`[ERROR] Spec line did not match expected format: ${spec}`);
+            errors += 1;
+            continue;
+          }
 
           const name = match[1];
           const package_id = match[2].slice(1, -1);
@@ -86,22 +114,42 @@
               workshop_id = parsed_url.searchParams.get("id");
             }
           } catch (_) {
-            // Ignore malformed URLs
+            // expected, local mods list invalid urls. log and ignore
+            logs.push(`[WARNING] The following spec included a malformed workshop URL: ${spec}`);
           }
 
           mods.push([name, package_id, workshop_id]);
         }
-        console.log(mods);
         loading_label.textContent = "Fetching index...";
 
-        const index_response = await fetch("/mods/index.json");
-        if (!index_response.ok) {
-          results.textContent = `Unable to fetch Index: ${indexindex_response.status} ${index_response.statusText}`;
+        let index_response;
+        try {
+          index_response = await fetch("/mods/index.json");
+        } catch(e) {
+          logs.push(`[ERROR] Could not fetch index: ${e.toString()}`);
+          present_errors(logs);
+        }
+
+        if (!index_response || !index_response.ok) {
+          results.textContent = `Unable to fetch index. Please do not report this issue on GitHub, it is almost certainly caused by connectivity issues on your end. A browser plug-in may be blocking JuMLi's requests.`;
           present();
           return;
         }
 
-        const index = await index_response.json();
+        
+        let index;
+        try {
+          index = await index_response.json();
+        } catch (e) {
+          logs.push(`[ERROR] Could not parse index: ${e.toString()}`);
+          present_errors(logs);
+        }
+
+        if (!index) {
+          results.textContent = `Unable to read index. `;
+          present();
+          return;
+        }
 
         let foundAnything = false;
         loading_label.textContent = "Looking for notices...";
@@ -138,6 +186,10 @@
 
         if (!foundAnything) {
           results.textContent = "Nothing to report!";
+        }
+
+        if (errors !== 0 || window.location.hash && window.location.hash.substr(1) === "showlog") {
+          present_errors(logs);
         }
 
         present();

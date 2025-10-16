@@ -36,6 +36,14 @@ div.spinner {
     margin: 0 auto;
 }
 
+#errors_container details {
+  border: 1px solid red;
+}
+
+#errors_container textarea {
+  width: 75%;
+}
+
 #results > iframe {
     width: 100%;
     height: 300px;
