@@ -5,7 +5,7 @@ use tracing::{error, info};
 
 use crate::{
     records::{DatabaseBuilder, types::ModIdentifier},
-    render::{RenderHtml, redirect_html, render_diagnostics},
+    render::{RenderHtml, frame_html, render_diagnostics},
     sources::{jumli_data::JumliData, use_this_instead::UseThisInstead},
 };
 
@@ -114,7 +114,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     std::fs::create_dir(package_path.join(id))?;
                     std::fs::write(
                         package_path.join(format! {"{id}/index.html"}),
-                        redirect_html(format!("/{SUBDIR_MOD_REPORTS}/{idx}.html")),
+                        frame_html(format!("/{SUBDIR_MOD_REPORTS}/{idx}.html")),
                     )?;
 
                     sitemap.add_url(
@@ -132,7 +132,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     std::fs::create_dir(workshop_path.join(id.to_string()))?;
                     std::fs::write(
                         workshop_path.join(format!("{id}/index.html")),
-                        redirect_html(format!("/{SUBDIR_MOD_REPORTS}/{idx}.html")),
+                        frame_html(format!("/{SUBDIR_MOD_REPORTS}/{idx}.html")),
                     )?;
 
                     sitemap.add_url(

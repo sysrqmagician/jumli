@@ -91,13 +91,13 @@ impl RenderHtml for ModRecord {
     }
 }
 
-pub fn redirect_html(destination: String) -> String {
+pub fn frame_html(destination: String) -> String {
     html! {
         head {
-            meta http-equiv="refresh" content=(format!("0; {destination}")){}
+            base target="_blank" {}
         }
         body {
-            p { "You are being redirected..." }
+            iframe src=(destination) width="100%" height="100%" frameBorder="0" { }
         }
     }
     .into_string()
