@@ -361,6 +361,21 @@ Dataset(
                   certainty: Medium,
               )
           ]
-        )
+        ),
+        // RimWorld Performance Booster
+        (
+          identifiers: [
+            WorkshopId(3568990757),
+            PackageId("andreas.performancebooster.dev")
+          ],
+          notices: [
+              (
+                  date: "2025-09-15",
+                  notice: Unstable("Known to be very broken. You should remove it immediately. The mod has been removed from the Steam Workshop by moderators multiple times. In addition to stability issues, it previously modified logging to hide errors from the user. Other modders reviewed the decompiled code and found that many of its patches were ineffective at best."),
+                  context_url: "https://discord.com/channels/241677926855081984/708435078614614116/1417246771998101544", // Discussion in Dubs Mods Discord
+                  certainty: High,
+              )
+          ]
+        ),
     ]
 )
