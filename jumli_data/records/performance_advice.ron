@@ -377,5 +377,19 @@ Dataset(
               )
           ]
         ),
+        // Slower Pawn Tick Rate
+        (
+          identifiers: [
+            WorkshopId(3524116050),
+            PackageId("arkymn.slowerpawntickrate")
+          ],
+          notices: [
+              (
+                  date: "2025-10-17",
+                  notice: Miscellaneous("Adjust the mod settings: The multiplier should be at most 6. Higher values might cause broken pawn behavior."),
+                  certainty: High,
+              )
+          ]
+        ),
     ]
 )
