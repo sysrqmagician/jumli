@@ -244,8 +244,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: BadPerformance("Heavy on TPS. Consider disabling if you run into issues."),
+                    date: "2025-10-18",
+                    notice: BadPerformance("Heavy on TPS. It constantly scans the map, even while combat isn't ongoing. If you have the TPS to spare, you can lessen the impact by setting Scan Tick Interval to a value between 10 and 60, with higher values leading to less overall lag. Even with a higher interval, there is bound to be a noticeable impact."),
+                    context_url: "https://discord.com/channels/241677926855081984/660280287497814078/1428908888651993139", // Thanks @camelFont
                     certainty: High,
                 )
             ]
