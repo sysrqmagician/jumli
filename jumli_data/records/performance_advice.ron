@@ -392,5 +392,19 @@ Dataset(
               )
           ]
         ),
+        // Scattered Flames
+        (
+          identifiers: [
+            WorkshopId(3261108120),
+            PackageId("owlchemist.scatteredflames")
+          ],
+          notices: [
+              (
+                  date: "2025-10-18",
+                  notice: BadPerformance("Detrimental to performance since 1.5. Better performance than Vanilla on 1.4 and prior."),
+                  certainty: High,
+              )
+          ]
+        ),
     ]
 )
