@@ -406,5 +406,20 @@ Dataset(
               )
           ]
         ),
+        // Pause other settlements simulation
+        (
+          identifiers: [
+            WorkshopId(3526657761),
+            PackageId("esvn.pauseothersettlementssimulation")
+          ],
+          notices: [
+              (
+                  date: "2025-10-20",
+                  notice: BadPerformance("This mod has a net-negative impact on performance. You should remove it. It patches Thing.DoTick with its checks, adding overhead to all active entities, thereby negating any potential benefits of not processing other settlements."),
+                  context_url: "https://media.discordapp.net/attachments/841121808118710282/1399566639502196746/Screenshot_2025-07-28_203741.png?ex=68f78cc1&is=68f63b41&hm=892a6847a7edd7ad1b296b14fef236e1d4c95756b702e485e7e00f8f79f4e586&=",
+                  certainty: High,
+              )
+          ]
+        ),
     ]
 )
