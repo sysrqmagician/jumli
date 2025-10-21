@@ -203,9 +203,14 @@ Dataset(
             notices: [
                 (
                     date: "2025-09-10",
-                    notice: Unstable("Might cause issues. If you can, replace any dependent mods and disable this."),
+                    notice: Unstable("Might cause issues. For all intents and purposes this has practically been replaced by Harmony in modern mods. If you can, replace any dependent mods and disable this."),
                     certainty: High,
-                )
+                ),
+                (
+                    date: "2025-10-21",
+                    notice: UseAlternative("Log Publisher from HugsLib", 2873415404, "After removing all HugsLib-dependent mods, install this standalone mod to retain log uploading functionality."),
+                    certainty: High,
+                ),
             ]
         ),
         // Smart Medicine
@@ -417,6 +422,49 @@ Dataset(
                   date: "2025-10-20",
                   notice: BadPerformance("This mod has a net-negative impact on performance. You should remove it. It patches Thing.DoTick with its checks, adding overhead to all active entities, thereby negating any potential benefits of not processing other settlements."),
                   context_url: "https://media.discordapp.net/attachments/841121808118710282/1399566639502196746/Screenshot_2025-07-28_203741.png?ex=68f78cc1&is=68f63b41&hm=892a6847a7edd7ad1b296b14fef236e1d4c95756b702e485e7e00f8f79f4e586&=",
+                  certainty: High,
+              )
+          ]
+        ),
+        // JecsTools
+        (
+          identifiers: [
+            WorkshopId(3524247750), // "Unofficial Beta" fork
+            PackageId("jecrell.jecstools")
+          ],
+          notices: [
+              (
+                  date: "2025-10-21",
+                  notice: BadPerformance("Definite impact on performance. This is an ancient modding framework known to be unstable and slow. You should disable it unless you desperately want to use a dependent mod."),
+                  context_url: "https://imgur.com/a/pTidlz8",
+                  certainty: High,
+              )
+          ]
+        ),
+        // Common Sense
+        (
+          identifiers: [
+            WorkshopId(1561769193),
+            PackageId("avilmask.commonsense")
+          ],
+          notices: [
+              (
+                  date: "2025-10-21",
+                  notice: BadPerformance("This mod's tweaks to Pawn behavior add up in cost. Look through the settings and decide which options are actually worth a hit to performance."),
+                  certainty: High,
+              )
+          ]
+        ),
+        // Vanilla Temperature Expanded 
+        (
+          identifiers: [
+            WorkshopId(3202046258),
+            PackageId("vanillaexpanded.temperature")
+          ],
+          notices: [
+              (
+                  date: "2025-10-21",
+                  notice: BadPerformance("You should disable Proxy Heat in VTE's settings if you are having issues. It's enabled by default and heavy on performance."),
                   certainty: High,
               )
           ]
