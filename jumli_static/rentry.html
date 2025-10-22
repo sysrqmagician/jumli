@@ -136,8 +136,14 @@
           for (idx in report.notices) {
             const notice = report.notices[idx];
             const notice_kind_data = Object.entries(notice["notice"])[0];
-            const source_kind_name = Object.entries(notice["source"])[0];
-            out += `-# ${notice_kind_data[0]} (${source_kind_name[0]} ${source_kind_name[1]}, ${notice.date})\n`;
+
+            if typeof notice["source"] === "string" {
+              out += `-# ${notice_kind_data[0]} (${notice["source"]}, ${notice.date})\n`;
+            } else {
+              // [source_name, dataset_name]
+              const source_kind_name = Object.entries(notice["source"])[0];
+              out += `-# ${notice_kind_data[0]} (${source_kind_name[0]} ${source_kind_name[1]}, ${notice.date})\n`;
+            }
 
             if (notice_kind_data[0] == "UseAlternative") {
               // [1] = [alternative_name, alternative_workshop_id, description]
