@@ -130,7 +130,8 @@ Dataset(
             identifiers: [
                 WorkshopId(839005762), // "Stable"
                 WorkshopId(2640710953), // Dev
-                PackageId("erdelf.humanoidalienraces")
+                PackageId("erdelf.humanoidalienraces"),
+                PackageId("erdelf.humanoidalienraces.dev")
             ],
             notices: [
                 (
