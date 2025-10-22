@@ -102,6 +102,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
             &record,
         )?;
 
+        if record.notices.iter().find(|x| !x.historical).is_none() {
+            continue; // TODO: Display historical notices separately
+        }
+
         std::fs::write(mods_path.join(format!("{idx}.html")), record.render_html())?;
 
         'inner: for identifier in &record.identifiers {

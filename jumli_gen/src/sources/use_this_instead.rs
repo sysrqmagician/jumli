@@ -102,6 +102,7 @@ impl RecordSource for UseThisInstead {
                         certainty: Certainty::Inapplicable,
                         source: Source::UseThisInsteadDatabase,
                         context_url: None,
+                        historical: false,
                     }],
                 })
             });

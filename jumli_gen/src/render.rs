@@ -82,7 +82,9 @@ impl RenderHtml for ModRecord {
                 h4 { "Notices" }
                 div.notices {
                     @for notice in &self.notices {
-                        (PreEscaped(notice.render_html()))
+                        @if !notice.historical {
+                            (PreEscaped(notice.render_html()))
+                        }
                     }
                 }
             }

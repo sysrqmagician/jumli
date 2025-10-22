@@ -36,6 +36,8 @@ struct LocalNotice {
     pub notice: Notice,
     pub certainty: Certainty,
     pub context_url: Option<String>,
+    #[serde(default)]
+    pub historical: bool,
 }
 
 impl Into<Vec<IngestibleData>> for DatasetFile {
@@ -53,6 +55,7 @@ impl Into<Vec<IngestibleData>> for DatasetFile {
                         date: local.date,
                         notice: local.notice,
                         source: Source::JumliDataset(self.name.clone()),
+                        historical: local.historical,
                     })
                     .collect(),
             })

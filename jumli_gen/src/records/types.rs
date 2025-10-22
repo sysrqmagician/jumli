@@ -50,6 +50,7 @@ pub struct NoticeRecord {
     pub certainty: Certainty,
     pub source: Source,
     pub context_url: Option<String>,
+    pub historical: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
