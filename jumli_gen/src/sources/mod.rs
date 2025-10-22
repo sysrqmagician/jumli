@@ -7,7 +7,6 @@ use crate::records::types::IngestibleData;
 
 pub mod jumli_data;
 pub mod use_this_instead;
-pub mod workshop_database;
 
 /// Diagnostics to be shown on /status.html. Note all of this information will be public.
 #[derive(Default)]

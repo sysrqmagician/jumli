@@ -42,7 +42,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let mut builder = DatabaseBuilder::new();
-    //    builder.ingest_from(WorkshopDatabase::new()).await?; -- Bloats the index and appears to be out-of-date often
     builder.ingest_from(UseThisInstead::new()).await?;
     builder.ingest_from(JumliData::new()).await?;
 
