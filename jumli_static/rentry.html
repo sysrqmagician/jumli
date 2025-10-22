@@ -137,7 +137,7 @@
             const notice = report.notices[idx];
             const notice_kind_data = Object.entries(notice["notice"])[0];
 
-            if typeof notice["source"] === "string" {
+            if (typeof notice["source"] === "string") {
               out += `-# ${notice_kind_data[0]} (${notice["source"]}, ${notice.date})\n`;
             } else {
               // [source_name, dataset_name]
