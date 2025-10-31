@@ -4,6 +4,7 @@ Dataset(
 
     records: [
         (
+            historical: true,
             identifiers: [
                 PackageId("ludeon.rimworld.odyssey")
             ],
