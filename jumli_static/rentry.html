@@ -135,6 +135,9 @@
           out += `**${mod[0]}**\n`;
           for (idx in report.notices) {
             const notice = report.notices[idx];
+            if (notice.historical) {
+              continue;
+            }
             const notice_kind_data = Object.entries(notice["notice"])[0];
 
             if (typeof notice["source"] === "string") {

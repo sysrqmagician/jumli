@@ -1,4 +1,5 @@
 use std::{env, error::Error, fs::OpenOptions, io::BufWriter, path::PathBuf};
+use std::collections::HashMap;
 
 use mapmysite::{ChangeFreq, Sitemap, SitemapUrl};
 use tracing::{error, info};
@@ -82,7 +83,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 .write(true)
                 .open(mods_path.join("index.json"))?,
         ),
-        &db.indices,
+        &db.indices.iter().filter(|(_, idx)| db.records[**idx].notices.iter().find(|x| !x.historical).is_some()).collect::<HashMap<_,_>>(),
     )?;
 
     info!("Rendering reports.");
