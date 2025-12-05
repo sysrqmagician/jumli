@@ -350,8 +350,8 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-16",
-                  notice: BadPerformance("Some impact on TPS, but reasonable considering what it does. Heavy impact during combat. Turrets scan constantly, which is made worse by their higher range in CE, turn them off when not in combat."),
+                  date: "2025-12-05",
+                  notice: BadPerformance("Some impact on TPS, but reasonable considering what it does. Heavier impact during combat."),
                   certainty: High,
               )
           ]
