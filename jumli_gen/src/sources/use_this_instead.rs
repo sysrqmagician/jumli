@@ -1,8 +1,8 @@
-use std::{env::temp_dir, fs::File, io::BufReader};
+use std::{env::temp_dir, fs::File, io::Read};
 
+use flate2::read::GzDecoder;
 use git2::FetchOptions;
 use serde::Deserialize;
-use tokio::task::JoinSet;
 use tracing::info;
 
 use crate::{
@@ -10,30 +10,73 @@ use crate::{
     sources::{Diagnostics, RecordSource},
 };
 
-pub const REPOSITORY_URL: &'static str = "https://github.com/emipa606/UseThisInstead";
+pub const REPOSITORY_URL: &str = "https://github.com/emipa606/UseThisInstead";
 
 #[derive(Deserialize)]
-pub struct UtiDocument {
-    #[serde(rename = "ModId")]
-    pub mod_id: String,
-    #[serde(rename = "ModName")]
-    pub mod_name: String,
-    #[serde(rename = "Author")]
-    pub author: String,
-    #[serde(rename = "SteamId")]
-    pub steam_id: u64,
-    #[serde(rename = "Versions")]
-    pub versions: String,
-    #[serde(rename = "ReplacementModId")]
-    pub replacement_mod_id: String,
-    #[serde(rename = "ReplacementName")]
-    pub replacement_name: String,
-    #[serde(rename = "ReplacementAuthor")]
-    pub replacement_author: String,
-    #[serde(rename = "ReplacementSteamId")]
-    pub replacement_steam_id: u64,
-    #[serde(rename = "ReplacementVersions")]
-    pub replacement_versions: String,
+pub struct UtiData {
+    pub rules: Vec<UtiReplacement>,
+    pub version: String,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UtiReplacement {
+    #[serde(deserialize_with = "are_you_kidding_me::string")]
+    pub old_package_id: String,
+    #[serde(deserialize_with = "are_you_kidding_me::u64")]
+    pub old_workshop_id: u64,
+    #[serde(deserialize_with = "are_you_kidding_me::string")]
+    pub new_package_id: String,
+    #[serde(deserialize_with = "are_you_kidding_me::string")]
+    pub new_name: String,
+    #[serde(deserialize_with = "are_you_kidding_me::u64")]
+    pub new_workshop_id: u64,
+}
+
+// I shit you not, the UTI replacements json is at least partially hand-written
+// json and completely unvalidated.
+//
+// Someone clearly opened it on Windows since it contains CRLF.
+// There are records where the package id is null or an integer (someone pasted the workshop id of the mod there).
+// There are also records where the workshop id is an actual integer instead of a string as with
+// most records.
+mod are_you_kidding_me {
+    use serde::{Deserialize, Deserializer};
+
+    #[derive(Deserialize)]
+    #[serde(untagged)]
+    enum U64OrString {
+        Number(u64),
+        String(String),
+    }
+
+    pub fn u64<'de, D>(deserializer: D) -> Result<u64, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        if let Ok(deserialized) = U64OrString::deserialize(deserializer) {
+            match deserialized {
+                U64OrString::Number(n) => Ok(n),
+                U64OrString::String(s) => s.parse().map_err(serde::de::Error::custom),
+            }
+        } else {
+            Ok(0)
+        }
+    }
+
+    pub fn string<'de, D>(deserializer: D) -> Result<String, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        if let Ok(deserialized) = U64OrString::deserialize(deserializer) {
+            match deserialized {
+                U64OrString::Number(n) => Ok(n.to_string()),
+                U64OrString::String(s) => Ok(s),
+            }
+        } else {
+            Ok(String::new())
+        }
+    }
 }
 
 pub struct UseThisInstead {
@@ -66,53 +109,45 @@ impl RecordSource for UseThisInstead {
         self.diagnostics.add_git_info(&repo);
         info!("Cloned UTI Repo.");
 
-        let mut replacements_dir = repo_dir.clone();
-        replacements_dir.push("Replacements");
+        let replacements_file_gz = repo_dir.join("replacements.json.gz");
+        let mut gz_decoder = GzDecoder::new(
+            File::open(&replacements_file_gz)
+                .map_err(|e| format!("Failed to open {replacements_file_gz:#?}: {e}"))?,
+        );
+        let mut replacements_file_plain = String::new();
+        gz_decoder
+            .read_to_string(&mut replacements_file_plain)
+            .map_err(|e| format!("Failed to decode {replacements_file_gz:#?}: {e}"))?;
 
-        let mut handles: JoinSet<Result<IngestibleData, String>> = JoinSet::new();
+        let uti_data: UtiData = serde_json::from_str(
+            replacements_file_plain
+                .strip_prefix("\u{feff}")
+                .unwrap_or(&replacements_file_plain),
+        )
+        .map_err(|e| format!("Failed to deserialize replacements file: {e}"))?;
 
-        let mut read_dir = std::fs::read_dir(&replacements_dir)?;
-        while let Some(Ok(entry)) = read_dir.next() {
-            if entry.path().extension().and_then(|e| e.to_str()) != Some("xml") {
-                continue;
+        for replacement in uti_data.rules {
+            let mut identifiers = vec![ModIdentifier::WorkshopId(replacement.old_workshop_id)];
+            // Some of our lovely modders do not think unique package names are important
+            if replacement.old_package_id != replacement.new_package_id {
+                identifiers.push(ModIdentifier::PackageId(replacement.old_package_id));
             }
 
-            handles.spawn(async move {
-                let doc: UtiDocument =
-                    quick_xml::de::from_reader(BufReader::new(File::open(entry.path()).map_err(
-                        |e| format!("Failed to parse '{}': {e}", entry.path().display()),
-                    )?))
-                    .map_err(|e| format!("Failed to parse '{}': {e}", entry.path().display()))?;
-
-                let mut identifiers = vec![ModIdentifier::WorkshopId(doc.steam_id)];
-                // Some of our lovely modders do not think unique package names are important
-                if doc.mod_id != doc.replacement_mod_id {
-                    identifiers.push(ModIdentifier::PackageId(doc.mod_id));
-                }
-
-                Ok(IngestibleData {
-                    identifiers,
-                    notices: vec![NoticeRecord {
-                        notice: Notice::UseAlternative(
-                            doc.replacement_name,
-                            Some(doc.replacement_steam_id),
-                            None,
-                        ),
-                        date: None,
-                        certainty: Certainty::Inapplicable,
-                        source: Source::UseThisInsteadDatabase,
-                        context_url: None,
-                        historical: false,
-                    }],
-                })
+            self.records.push(IngestibleData {
+                identifiers,
+                notices: vec![NoticeRecord {
+                    notice: Notice::UseAlternative(
+                        replacement.new_name,
+                        Some(replacement.new_workshop_id),
+                        None,
+                    ),
+                    date: None,
+                    certainty: Certainty::Inapplicable,
+                    source: Source::UseThisInsteadDatabase,
+                    context_url: None,
+                    historical: false,
+                }],
             });
-        }
-
-        while let Some(Ok(result)) = handles.join_next().await {
-            match result {
-                Ok(record) => self.records.push(record),
-                Err(error) => self.diagnostics.log(error),
-            }
         }
 
         info!(
@@ -121,6 +156,8 @@ impl RecordSource for UseThisInstead {
         );
         self.diagnostics
             .add_property("raw_records_count", self.records.len().to_string());
+        self.diagnostics
+            .add_property("uti_version", uti_data.version);
 
         info!("Deleting UTI Repo {repo_dir:?}.",);
 
