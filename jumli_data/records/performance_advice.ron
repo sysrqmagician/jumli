@@ -10,9 +10,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("The DLC is known to hit TPS quite heavily, even if its content is not immediately present. If you are having issues with your TPS and are not planning on an Anomaly-focused run, seriously consider disabling it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("The DLC is known to hit TPS quite heavily, even if its content is not immediately present. If you are having issues with your TPS and are not planning on an Anomaly-focused run, seriously consider disabling it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -24,9 +24,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: Miscellaneous("To avoid performance issues, adjust the mod settings to hide interaction bubbles above speed 1."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: Miscellaneous("To avoid performance issues, adjust the mod settings to hide interaction bubbles above speed 1."),
+                  certainty: High,
                 )
             ]
         ),
@@ -38,9 +38,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: Miscellaneous("To avoid performance issues, increase the refresh interval in the mod settings. The UI is still quite heavy, so close it when you want to run above speed 1."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: Miscellaneous("To avoid performance issues, increase the refresh interval in the mod settings. The UI is still quite heavy, so close it when you want to run above speed 1."),
+                  certainty: High,
                 )
             ]
         ),
@@ -51,9 +51,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: Unstable("Make sure you only enable the first option in the mod settings (more are enabled by default). Even with only that option enabled, this mod is experimental and might have compatibility issues. If your game becomes unresponsive during/after loading, try disabling it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: Unstable("Make sure you only enable the first option in the mod settings (more are enabled by default). Even with only that option enabled, this mod is experimental and might have compatibility issues. If your game becomes unresponsive during/after loading, try disabling it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -65,9 +65,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -78,9 +78,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -92,9 +92,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Much heavier on TPS than mod page makes it seem like. The trade-off of TPS to FPS is generally not worth it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Much heavier on TPS than mod page makes it seem like. The trade-off of TPS to FPS is generally not worth it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -106,9 +106,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("FrameRateControl is only worth using on ancient hardware if you struggle using other applications in the background. Usage on any modern system is going to cause fare more issues than it's worth."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("FrameRateControl is only worth using on ancient hardware if you struggle using other applications in the background. Usage on any modern system is going to cause fare more issues than it's worth."),
+                  certainty: High,
                 )
             ]
         ),
@@ -119,9 +119,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -135,9 +135,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Constant, heavy impact on performance. Recommend disabling. If you desperately want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Constant, heavy impact on performance. Recommend disabling. If you desperately want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
+                  certainty: High,
                 )
             ]
         ),
@@ -149,9 +149,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Complex changes to combat AI have TPS impact scaling with amount of pawns. Consider disabling if you experience low TPS in combat."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Complex changes to combat AI have TPS impact scaling with amount of pawns. Consider disabling if you experience low TPS in combat."),
+                  certainty: High,
                 )
             ]
         ),
@@ -162,9 +162,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: BadPerformance("Very heavy impact on TPS. You should disable it."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: BadPerformance("Very heavy impact on TPS. You should disable it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -175,9 +175,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: Unstable("Very unstable. Might break your UI."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: Unstable("Very unstable. Might break your UI."),
+                  certainty: High,
                 )
             ]
         ),
@@ -189,9 +189,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: UseAlternative("Keyz' Allow Utilities", 3524716849, "Better performance, same features."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: UseAlternative("Keyz' Allow Utilities", 3524716849, "Better performance, same features."),
+                  certainty: High,
                 )
             ]
         ),
@@ -203,14 +203,14 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: Unstable("Might cause issues. For all intents and purposes this has practically been replaced by Harmony in modern mods. If you can, replace any dependent mods and disable this."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: Unstable("Might cause issues. For all intents and purposes this has practically been replaced by Harmony in modern mods. If you can, replace any dependent mods and disable this."),
+                  certainty: High,
                 ),
                 (
-                    date: "2025-10-21",
-                    notice: UseAlternative("Log Publisher from HugsLib", 2873415404, "After removing all HugsLib-dependent mods, install this standalone mod to retain log uploading functionality."),
-                    certainty: High,
+                  date: "2025-10-21",
+                  notice: UseAlternative("Log Publisher from HugsLib", 2873415404, "After removing all HugsLib-dependent mods, install this standalone mod to retain log uploading functionality."),
+                  certainty: High,
                 ),
             ]
         ),
@@ -222,9 +222,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-10",
-                    notice: UseAlternative("Choose Your Medicine", 2937201140, "Smart Medicine has terrible performance. Choose Your Medicine has better performance and is more featureful."),
-                    certainty: High,
+                  date: "2025-09-10",
+                  notice: UseAlternative("Choose Your Medicine", 2937201140, "Smart Medicine has terrible performance. Choose Your Medicine has better performance and is more featureful."),
+                  certainty: High,
                 )
             ]
         ),
@@ -236,9 +236,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: BadPerformance("Heavy on TPS. Consider disabling if you run into issues."),
-                    certainty: High,
+                  date: "2025-09-11",
+                  notice: BadPerformance("Heavy on TPS. Consider disabling if you run into issues."),
+                  certainty: High,
                 )
             ]
         ),
@@ -250,10 +250,10 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-10-18",
-                    notice: BadPerformance("Heavy on TPS. It constantly scans the map, even while combat isn't ongoing. If you have the TPS to spare, you can lessen the impact by setting Scan Tick Interval to a value between 10 and 60, with higher values leading to less overall lag. Even with a higher interval, there is bound to be a noticeable impact."),
+                  date: "2025-10-18",
+                  notice: BadPerformance("Heavy on TPS. It constantly scans the map, even while combat isn't ongoing. If you have the TPS to spare, you can lessen the impact by setting Scan Tick Interval to a value between 10 and 60, with higher values leading to less overall lag. Even with a higher interval, there is bound to be a noticeable impact."),
                     context_url: "https://discord.com/channels/241677926855081984/660280287497814078/1428908888651993139", // Thanks @camelFont
-                    certainty: High,
+                  certainty: High,
                 )
             ]
         ),
@@ -265,9 +265,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: BadPerformance("Somewhat heavy on TPS. Consider disabling if you run into issues."),
-                    certainty: High,
+                  date: "2025-09-11",
+                  notice: BadPerformance("Somewhat heavy on TPS. Consider disabling if you run into issues."),
+                  certainty: High,
                 )
             ]
         ),
@@ -279,9 +279,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: BadPerformance("Scales poorly with amount of allies on map. Consider disabling if you run into TPS issues."),
-                    certainty: High,
+                  date: "2025-09-11",
+                  notice: BadPerformance("Scales poorly with amount of allies on map. Consider disabling if you run into TPS issues."),
+                  certainty: High,
                 )
             ]
         ),
@@ -293,9 +293,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: Unstable("Generally considered unstable, especially the AI tweaks."),
-                    certainty: High,
+                  date: "2025-09-11",
+                  notice: Unstable("Generally considered unstable, especially the AI tweaks."),
+                  certainty: High,
                 )
             ]
         ),
@@ -307,9 +307,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: BadPerformance("Heavy on TPS even if content is not in use. Consider disabling if you aren't making heavy use of it."),
-                    certainty: High,
+                  date: "2025-09-11",
+                  notice: BadPerformance("Heavy on TPS even if content is not in use. Consider disabling if you aren't making heavy use of it."),
+                  certainty: High,
                 )
             ]
         ),
@@ -321,9 +321,9 @@ Dataset(
             ],
             notices: [
                 (
-                    date: "2025-09-11",
-                    notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constant checks."),
-                    certainty: High,
+                  date: "2025-09-11",
+                  notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constant checks."),
+                  certainty: High,
                 )
             ]
         ),
@@ -335,9 +335,9 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-16",
-                  notice: UseAlternative("SimpleCameraSetting", 3232415388, "Similar featureset, better performance."),
-                  certainty: Medium,
+                date: "2025-10-16",
+                notice: UseAlternative("SimpleCameraSetting", 3232415388, "Similar featureset, better performance."),
+                certainty: Medium,
               )
           ]
         ),
@@ -350,9 +350,9 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-12-05",
-                  notice: BadPerformance("Some impact on TPS, but reasonable considering what it does. Heavier impact during combat."),
-                  certainty: High,
+                date: "2025-12-05",
+                notice: BadPerformance("Some impact on TPS, but reasonable considering what it does. Heavier impact during combat."),
+                certainty: High,
               )
           ]
         ),
@@ -363,9 +363,9 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-09-15",
-                  notice: BadPerformance("Heavy impact on TPS, though author appears to be actively working on improving performance. Considering engine limitations, it is likely always going to have a noticeable impact. Consider what it does for you and decide if you have the TPS to spare."),
-                  certainty: Medium,
+                date: "2025-09-15",
+                notice: BadPerformance("Heavy impact on TPS, though author appears to be actively working on improving performance. Considering engine limitations, it is likely always going to have a noticeable impact. Consider what it does for you and decide if you have the TPS to spare."),
+                certainty: Medium,
               )
           ]
         ),
@@ -377,10 +377,10 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-09-15",
-                  notice: Unstable("Known to be very broken. You should remove it immediately. The mod has been removed from the Steam Workshop by moderators multiple times. In addition to stability issues, it previously modified logging to hide errors from the user. Other modders reviewed the decompiled code and found that many of its patches were ineffective at best."),
+                date: "2025-09-15",
+                notice: Unstable("Known to be very broken. You should remove it immediately. The mod has been removed from the Steam Workshop by moderators multiple times. In addition to stability issues, it previously modified logging to hide errors from the user. Other modders reviewed the decompiled code and found that many of its patches were ineffective at best."),
                   context_url: "https://discord.com/channels/241677926855081984/708435078614614116/1417246771998101544", // Discussion in Dubs Mods Discord
-                  certainty: High,
+                certainty: High,
               )
           ]
         ),
@@ -392,9 +392,9 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-17",
-                  notice: Miscellaneous("Adjust the mod settings: The multiplier should be at most 6. Higher values might cause broken pawn behavior."),
-                  certainty: High,
+                date: "2025-10-17",
+                notice: Miscellaneous("Adjust the mod settings: The multiplier should be at most 6. Higher values might cause broken pawn behavior."),
+                certainty: High,
               )
           ]
         ),
@@ -406,9 +406,9 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-18",
-                  notice: BadPerformance("Detrimental to performance since 1.5. Better performance than Vanilla on 1.4 and prior."),
-                  certainty: High,
+                date: "2025-10-18",
+                notice: BadPerformance("Detrimental to performance since 1.5. Better performance than Vanilla on 1.4 and prior."),
+                certainty: High,
               )
           ]
         ),
@@ -420,10 +420,10 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-20",
-                  notice: BadPerformance("This mod has a net-negative impact on performance. You should remove it. It patches Thing.DoTick with its checks, adding overhead to all active entities, thereby negating any potential benefits of not processing other settlements."),
+                date: "2025-10-20",
+                notice: BadPerformance("This mod has a net-negative impact on performance. You should remove it. It patches Thing.DoTick with its checks, adding overhead to all active entities, thereby negating any potential benefits of not processing other settlements."),
                   context_url: "https://media.discordapp.net/attachments/841121808118710282/1399566639502196746/Screenshot_2025-07-28_203741.png?ex=68f78cc1&is=68f63b41&hm=892a6847a7edd7ad1b296b14fef236e1d4c95756b702e485e7e00f8f79f4e586&=",
-                  certainty: High,
+                certainty: High,
               )
           ]
         ),
@@ -435,10 +435,10 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-21",
-                  notice: BadPerformance("Definite impact on performance. This is an ancient modding framework known to be unstable and slow. You should disable it unless you desperately want to use a dependent mod."),
+                date: "2025-10-21",
+                notice: BadPerformance("Definite impact on performance. This is an ancient modding framework known to be unstable and slow. You should disable it unless you desperately want to use a dependent mod."),
                   context_url: "https://imgur.com/a/pTidlz8",
-                  certainty: High,
+                certainty: High,
               )
           ]
         ),
@@ -450,9 +450,9 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-21",
-                  notice: BadPerformance("This mod's tweaks to Pawn behavior add up in cost. Look through the settings and decide which options are actually worth a hit to performance."),
-                  certainty: High,
+                date: "2025-10-21",
+                notice: BadPerformance("This mod's tweaks to Pawn behavior add up in cost. Look through the settings and decide which options are actually worth a hit to performance."),
+                certainty: High,
               )
           ]
         ),
@@ -464,11 +464,11 @@ Dataset(
           ],
           notices: [
               (
-                  date: "2025-10-21",
-                  notice: BadPerformance("You should disable Proxy Heat in VTE's settings if you are having issues. It's enabled by default and heavy on performance."),
-                  certainty: High,
+                date: "2025-10-21",
+                notice: BadPerformance("You should disable Proxy Heat in VTE's settings if you are having issues. It's enabled by default and heavy on performance."),
+                certainty: High,
               )
           ]
-        ),
+        )
     ]
 )
