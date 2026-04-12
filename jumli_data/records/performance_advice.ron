@@ -478,8 +478,8 @@ Dataset(
           notices: [
             (
               date: "2026-04-12",
-              notice: UseAlternative("Missile Girl", null, "Implements def cache along with other performance features, while not being AI-generated. Download it here: https://github.com/ViralReaction/MissileGirl.git"),
-              certainty: High
+              notice: Miscellaneous("Use Missile Girl instead. It implements def cache along with other performance features, while not being AI-generated. Download it here: https://github.com/ViralReaction/MissileGirl.git"),
+              certainty: High,
             )
           ]
         )
