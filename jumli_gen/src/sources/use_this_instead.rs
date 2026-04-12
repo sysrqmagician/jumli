@@ -21,12 +21,12 @@ pub struct UtiData {
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct UtiReplacement {
-    #[serde(deserialize_with = "are_you_kidding_me::string")]
-    pub old_package_id: String,
+    #[serde(default, deserialize_with = "are_you_kidding_me::opt_string")]
+    pub old_package_id: Option<String>,
     #[serde(deserialize_with = "are_you_kidding_me::u64")]
     pub old_workshop_id: u64,
-    #[serde(deserialize_with = "are_you_kidding_me::string")]
-    pub new_package_id: String,
+    #[serde(default, deserialize_with = "are_you_kidding_me::opt_string")]
+    pub new_package_id: Option<String>,
     #[serde(deserialize_with = "are_you_kidding_me::string")]
     pub new_name: String,
     #[serde(deserialize_with = "are_you_kidding_me::u64")]
@@ -48,6 +48,7 @@ mod are_you_kidding_me {
     enum U64OrString {
         Number(u64),
         String(String),
+        OptString(Option<String>),
     }
 
     pub fn u64<'de, D>(deserializer: D) -> Result<u64, D::Error>
@@ -58,6 +59,7 @@ mod are_you_kidding_me {
             match deserialized {
                 U64OrString::Number(n) => Ok(n),
                 U64OrString::String(s) => s.parse().map_err(serde::de::Error::custom),
+                U64OrString::OptString(os) => os.unwrap_or("0".into()).parse().map_err(serde::de::Error::custom),
             }
         } else {
             Ok(0)
@@ -72,9 +74,25 @@ mod are_you_kidding_me {
             match deserialized {
                 U64OrString::Number(n) => Ok(n.to_string()),
                 U64OrString::String(s) => Ok(s),
+                U64OrString::OptString(os) => Ok(os.unwrap_or_default()),
             }
         } else {
             Ok(String::new())
+        }
+    }
+
+    pub fn opt_string<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        if let Ok(deserialized) = U64OrString::deserialize(deserializer) {
+            match deserialized {
+                U64OrString::Number(n) => Ok(Some(n.to_string())),
+                U64OrString::String(s) => Ok(Some(s)),
+                U64OrString::OptString(os) => Ok(os),
+            }
+        } else {
+            Ok(None)
         }
     }
 }
@@ -129,8 +147,11 @@ impl RecordSource for UseThisInstead {
         for replacement in uti_data.rules {
             let mut identifiers = vec![ModIdentifier::WorkshopId(replacement.old_workshop_id)];
             // Some of our lovely modders do not think unique package names are important
-            if replacement.old_package_id != replacement.new_package_id {
-                identifiers.push(ModIdentifier::PackageId(replacement.old_package_id));
+            // Also, some records are missing old/new package ids since the maintainer switched to
+            // handwritten json...
+            if let Some(old_package_id) = replacement.old_package_id && let Some(new_package_id) = replacement.new_package_id
+                   && old_package_id != new_package_id {
+                identifiers.push(ModIdentifier::PackageId(old_package_id));
             }
 
             self.records.push(IngestibleData {
