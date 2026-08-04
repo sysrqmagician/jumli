@@ -11,7 +11,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-10",
-                  notice: BadPerformance("The DLC is known to hit TPS quite heavily, even if its content is not immediately present. If you are having issues with your TPS and are not planning on an Anomaly-focused run, seriously consider disabling it."),
+                  notice: BadPerformance("The DLC is known to hit TPS more heavily than others, even if its content is not immediately present. If you are having serious issues with your TPS and are not planning on an Anomaly-focused run, consider disabling it."),
                   certainty: High,
                 )
             ]
@@ -93,21 +93,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-10",
-                  notice: BadPerformance("Much heavier on TPS than mod page makes it seem like. The trade-off of TPS to FPS is generally not worth it."),
-                  certainty: High,
-                )
-            ]
-        ),
-        // FrameRateControl
-        (
-            identifiers: [
-                PackageId("notfood.frameratecontrol"),
-                WorkshopId(1591142767)
-            ],
-            notices: [
-                (
-                  date: "2025-09-10",
-                  notice: BadPerformance("FrameRateControl is only worth using on ancient hardware if you struggle using other applications in the background. Usage on any modern system is going to cause fare more issues than it's worth."),
+                  notice: BadPerformance("Trades off TPS for FPS, which is generally not worth it if you're already struggling to run the game at a decent speed."),
                   certainty: High,
                 )
             ]
@@ -120,7 +106,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-10",
-                  notice: BadPerformance("Heavy rendering code. You should consider disabling it."),
+                  notice: BadPerformance("Heavy rendering code."),
                   certainty: High,
                 )
             ]
@@ -128,7 +114,7 @@ Dataset(
         // Humanoid Alien Races
         (
             identifiers: [
-                WorkshopId(839005762), // "Stable"
+                WorkshopId(839005762), // Stable
                 WorkshopId(2640710953), // Dev
                 PackageId("erdelf.humanoidalienraces"),
                 PackageId("erdelf.humanoidalienraces.dev")
@@ -136,7 +122,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-10",
-                  notice: BadPerformance("Constant, heavy impact on performance. Recommend disabling. If you desperately want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
+                  notice: BadPerformance("Constant, heavy impact on performance. If you *really* want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
                   certainty: High,
                 )
             ]
@@ -163,7 +149,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-10",
-                  notice: BadPerformance("Very heavy impact on TPS. You should disable it."),
+                  notice: BadPerformance("As with most mods adding animations to common interactions, it has a very heavy impact on TPS."),
                   certainty: High,
                 ),
                 (
@@ -220,19 +206,20 @@ Dataset(
             ]
         ),
         // Smart Medicine
-        (
-            identifiers: [
-                WorkshopId(3526251680),
-                PackageId("memegoddess.smartmedicine")
-            ],
-            notices: [
-                (
-                  date: "2025-09-10",
-                  notice: UseAlternative("Choose Your Medicine", 2937201140, "Smart Medicine has terrible performance. Choose Your Medicine has better performance and is more featureful."),
-                  certainty: High,
-                )
-            ]
-        ),
+        // TODO: Verify is this is still the case, also include reasoning instead of just saying "terrible performance" if so.
+        //(
+        //    identifiers: [
+        //        WorkshopId(3526251680),
+        //        PackageId("memegoddess.smartmedicine")
+        //    ],
+        //    notices: [
+        //        (
+        //          date: "2025-09-10",
+        //          notice: UseAlternative("Choose Your Medicine", 2937201140, "Smart Medicine has terrible performance. Choose Your Medicine has better performance and is more featureful."),
+        //          certainty: High,
+        //        )
+        //    ]
+        //),
         // [NL] Facial Animation
         (
             identifiers: [
@@ -257,7 +244,7 @@ Dataset(
                 (
                   date: "2025-10-18",
                   notice: BadPerformance("Heavy on TPS. It constantly scans the map, even while combat isn't ongoing. If you have the TPS to spare, you can lessen the impact by setting Scan Tick Interval to a value between 10 and 60, with higher values leading to less overall lag. Even with a higher interval, there is bound to be a noticeable impact."),
-                    context_url: "https://discord.com/channels/241677926855081984/660280287497814078/1428908888651993139", // Thanks @camelFont
+                  context_url: "https://discord.com/channels/241677926855081984/660280287497814078/1428908888651993139", // Thanks @camelFont
                   certainty: High,
                 )
             ]
@@ -272,7 +259,7 @@ Dataset(
                 (
                   date: "2025-09-11",
                   notice: BadPerformance("Somewhat heavy on TPS. Consider disabling if you run into issues."),
-                  certainty: High,
+                  certainty: Medium,
                 )
             ]
         ),
@@ -286,20 +273,6 @@ Dataset(
                 (
                   date: "2025-09-11",
                   notice: BadPerformance("Scales poorly with amount of allies on map. Consider disabling if you run into TPS issues."),
-                  certainty: High,
-                )
-            ]
-        ),
-        // Animal Logic
-        (
-            identifiers: [
-                PackageId("oblitus.animalslogic"),
-                WorkshopId(1098354593)
-            ],
-            notices: [
-                (
-                  date: "2025-09-11",
-                  notice: Unstable("Generally considered unstable, especially the AI tweaks."),
                   certainty: High,
                 )
             ]
@@ -327,7 +300,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-11",
-                  notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constant checks."),
+                  notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constantly running the same checks."),
                   certainty: High,
                 )
             ]
@@ -544,7 +517,7 @@ Dataset(
           notices: [
             (
               date: "2026-07-20",
-              notice: Unstable("Remove immediately, does not actually improve your performance in any meaningful way and is likely to cause stability issues. This AI-generated mod that claims to be a continuation of RimThreaded while not actually being based on its source. Contains various random patches unrelated to threading with dubious effectiveness at best. Author does not appear to have the technical knowledge necessary to understand the LLM's output and has openly stated they are also using the model to help them respond to workshop comments."),
+              notice: Unstable("Remove immediately, does not actually improve your performance in any meaningful way and is likely to cause stability issues. This AI-generated mod that claims to be a continuation of RimThreaded while not actually being based on it. Contains various random patches unrelated to threading."),
               certainty: High
             )
           ]
@@ -576,7 +549,7 @@ Dataset(
           notices: [
             (
               date: "2026-07-20",
-              notice: Unstable("Remove immediately. It actively suppresses errors, has a constant performance impact due to always running its profiler and reimplements several things already in the basegame for no apparent reason. Mod appears to be AI-generated and is therefore very likely to be unstable."),
+              notice: Unstable("Actively suppresses errors, has a constant performance impact due to always running its profiler and reimplements several things already in the basegame for no apparent reason. Mod appears to be AI-generated and is therefore very likely to be unstable."),
               certainty: High,
               context_url: "https://discord.com/channels/241677926855081984/708435078614614116/1518800101298933902",
             )
@@ -622,7 +595,7 @@ Dataset(
                 ),
                 (
                     data: "2026-07-23",
-                    notice: Unstable("Considering the authors approach (see bad performance notice), compatiblity issues are very likely should patched animals get updated. See context URL for a list of patched mods maintained by the author."),
+                    notice: Unstable("Considering the authors approach (see bad performance notice), compatibility issues are very likely should patched animals get updated. See context URL for a list of patched mods maintained by the author."),
                     certainty: High,
                     context_url: "https://steamcommunity.com/workshop/filedetails/discussion/3679396881/807971027746468676/"
                 )
