@@ -122,7 +122,7 @@ Dataset(
             notices: [
                 (
                   date: "2025-09-10",
-                  notice: BadPerformance("Constant, heavy impact on performance. If you *really* want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
+                  notice: BadPerformance("Constant, heavy impact on performance. If you really want to use a dependent mod, consider getting the Unpatcher: https://github.com/Zeracronius/Unpatcher/releases"),
                   certainty: High,
                 )
             ]
@@ -292,19 +292,20 @@ Dataset(
             ]
         ),
         // Ugh You Got Me
-        (
-            identifiers: [
-                WorkshopId(1542424705),
-                PackageId("marvinkosh.ughyougotme")
-            ],
-            notices: [
-                (
-                  date: "2025-09-11",
-                  notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constantly running the same checks."),
-                  certainty: High,
-                )
-            ]
-        ),
+        // TODO: Verify if this is still the case. Likely outdated, recent messages about it having been patched.
+        //(
+        //    identifiers: [
+        //        WorkshopId(1542424705),
+        //        PackageId("marvinkosh.ughyougotme")
+        //    ],
+        //    notices: [
+        //        (
+        //          date: "2025-09-11",
+        //          notice: UseAlternative("Short Social Fight", 3474244421, "Ugh You Got me is heavy on TPS due to constantly running checks."),
+        //          certainty: High,
+        //        )
+        //    ]
+        //),
         // Camera+
         (
           identifiers: [
@@ -517,7 +518,7 @@ Dataset(
           notices: [
             (
               date: "2026-07-20",
-              notice: Unstable("Remove immediately, does not actually improve your performance in any meaningful way and is likely to cause stability issues. This AI-generated mod that claims to be a continuation of RimThreaded while not actually being based on it. Contains various random patches unrelated to threading."),
+              notice: Unstable("Remove immediately, does not actually improve your performance in any meaningful way and is likely to cause stability issues. This AI-generated mod claims to be a continuation of RimThreaded while not actually being based on it. Contains various random patches unrelated to threading."),
               certainty: High
             )
           ]
