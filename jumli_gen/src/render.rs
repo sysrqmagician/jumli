@@ -16,7 +16,7 @@ impl RenderHtml for NoticeRecord {
             div.notice {
                 @match &self.notice {
                     Notice::BadPerformance(reason) => {
-                        strong { "Bad Performance"}
+                        strong { "Performance"}
                         @if let Some(reason) = reason {
                             p { (reason) }
                         } @else {
@@ -39,7 +39,7 @@ impl RenderHtml for NoticeRecord {
                         p { (description) }
                     },
                     Notice::Unstable(description) => {
-                        strong { "Unstable" }
+                        strong { "Stability" }
                         @if let Some(description) = description {
                             p { (description) }
                         } @else {
