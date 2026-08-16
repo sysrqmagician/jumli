@@ -640,6 +640,58 @@ Dataset(
                     certainty: High
                 )
             ]
+        ),
+        // SimpleBabyCarry
+        (
+            identifiers: [
+                WorkshopId(3692756679),
+                PackageId("b4ttl3m3ds.simplebabycarry")
+            ],
+            notices: [
+                (
+                    data: "2026-08-16",
+                    notice: BadPerformance("Overall performance-impact of SBC can be significant. It patches into a lot of mechanics and the impact of all patches combined should be concerning. Source: TSIND (RW Community Discord)"),
+                    certainty: High
+                ),
+                (
+                    data: "2026-08-16",
+                    notice: Miscellaneous("Has been reported to contain code that hides errors from logs. Seriousness unconfirmed, use with care. Source: TSIND (RW Community Discord, via bblkepling)"),
+                    certainty: Medium
+                )
+            ]
+        ),
+        // Beautiful Outdoors
+        (
+            identifiers: [
+                WorkshopId(2011794898),
+                PackageId("meltup.beautifuloutdoors")
+            ],
+            notices: [
+                (
+                    data: "2026-08-16",
+                    notice: BadPerformance("The game scanning for beauty values is a known bottleneck. Adding the stat to more natural map entities makes this considerably worse. Scales with map-size, plant density, filth, etc. and potentially gets worse with mods patching into the check itself. Source: TSIND (Dubs Discord)"),
+                    certainty: Medium
+                )
+            ]
+        ),
+        // Privacy Please!
+        (
+            identifiers: [
+                WorkshopId(3605890619),
+                PackageId("xubisca.privacyplease")
+            ],
+            notices: [
+                (
+                    data: "2026-08-16",
+                    notice: BadPerformance("Multiple reports of having significant performance impact. No reliable numbers on the exact severity, but some of the impact could be related to actual errors. Source: TSIND (RW Community Discord)"),
+                    certainty: Medium
+                ),
+                (
+                    data: "2026-08-16",
+                    notice: Unstable("Many reports of the mod bugging out by itself or in conjunction with other mods. Also failing compatibility patches for other mods like Hospitality are commonly seen in logs. Since the mod didn't get any update in months, it's safe to assume that the author is either inactive or unable to fix those issues. Source: TSIND (RW Community Discord)"),
+                    certainty: High
+                )
+            ]
         )
     ]
 )
