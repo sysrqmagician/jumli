@@ -692,6 +692,20 @@ Dataset(
                     certainty: High
                 )
             ]
+        ),
+        // Rim long and prosper (Animals)
+        (
+            identifiers: [
+                WorkshopId(3529961585),
+                PackageId("klausberger.rimlongandprosperanimals")
+            ],
+            notices: [
+                (
+                    data: "2026-08-17",
+                    notice: BadPerformance("Increases the lifespan of (atmospheric) animals on map which according to reports can lead to large numbers of them accumulating over time. Potentially similar issue like with wild animals reproducing. Use with care. Source: TSIND (RW Community Discord)"),
+                    certainty: Low
+                )
+            ]
         )
     ]
 )
